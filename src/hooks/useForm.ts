@@ -1,6 +1,6 @@
 import React from 'react';
-import { FormOptions, Validation } from '../types';
-import * as helpers from '../helpers';
+import { FormOptions, Validation } from '../Type/types';
+import * as helpers from '../Helpers/helpers';
 
 export const formValidation = <Values>(table: Validation<Values>, values: Values) => {
   return Object.keys(table).length === 0
