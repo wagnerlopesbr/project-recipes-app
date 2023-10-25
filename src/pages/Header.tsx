@@ -2,14 +2,15 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
+import SearchBar from '../components/SearchBar';
 
 function Header() {
   const route = useLocation();
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   const showSearchIcon = !route.pathname.includes('profile')
-  && !route.pathname.includes('done-recipes')
-  && !route.pathname.includes('favorite-recipes');
+    && !route.pathname.includes('done-recipes')
+    && !route.pathname.includes('favorite-recipes');
 
   const pageTitle = () => {
     if (route.pathname.includes('meals')) {
@@ -54,7 +55,7 @@ function Header() {
               />
             </button>
             {showSearchBar && (
-              <input data-testid="search-input" type="text" />
+              <SearchBar />
             )}
           </div>
         )}

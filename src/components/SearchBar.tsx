@@ -49,7 +49,7 @@ function SearchBar() {
     <div>
       <div>
         <input
-          type="radio"
+          type="text"
           id="search"
           data-testid="search-input"
           placeholder="Search..."
