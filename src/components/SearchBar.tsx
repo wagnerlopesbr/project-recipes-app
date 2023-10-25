@@ -1,8 +1,15 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { DrinkType, MealType } from '../Type/type';
 
 function SearchBar() {
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
+  const [searchResult, setSearchResult] = React.useState<{
+    meals: MealType[], drinks: DrinkType[]
+  }>();
+  const navigate = useNavigate();
+  const route = useLocation();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
   const FIRST_LETTER = 'first-letter';
@@ -39,9 +46,24 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
-      console.log(data.meals);
+      console.log(data);
+      setSearchResult(data);
+      redirectToDetailsPage();
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const redirectToDetailsPage = () => {
+    if (route.pathname.includes('/meals')) {
+      if (searchResult?.meals.length === 1) {
+        navigate(`/meals/${searchResult.meals[0].idMeal}`);
+      }
+    }
+    if (route.pathname.includes('/drinks')) {
+      if (searchResult?.drinks.length === 1) {
+        navigate(`/drinks/${searchResult.drinks[0].idDrink}`);
+      }
     }
   };
 
