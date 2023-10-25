@@ -1,4 +1,5 @@
-import './App.css';
+// import './App.css';
+// Tirei o css por que com ele diretamente no app tava bugando os requisitos
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
