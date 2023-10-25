@@ -29,9 +29,9 @@ function SearchBar() {
       if (searchType === INGREDIENT) {
         ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
       } else if (searchType === NAME) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?s=${searchInput}`;
+        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
       } else if (searchType === FIRST_LETTER) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?f=${searchInput}`;
+        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
       }
     }
 
