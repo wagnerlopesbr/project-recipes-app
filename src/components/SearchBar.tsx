@@ -1,10 +1,14 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { DrinkType, MealType } from '../Type/type';
 
 function SearchBar() {
   const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
+  const [showRecipies, setShowRecipies] = React.useState(false);
+  const [recipes, setRecipes] = React.useState([]);
+  console.log(recipes);
   const navigate = useNavigate();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
@@ -45,8 +49,20 @@ function SearchBar() {
       const data = await response.json();
       console.log(data);
       redirectToDetailsPage(data);
+      renderRecipes(data);
+      setRecipes(data.meals || data.drinks);
+      console.log(recipes);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const renderRecipes = (data: any) => {
+    if (route.pathname.includes('/meals') && data.meals.length > 1) {
+      setShowRecipies(true);
+    }
+    if (route.pathname.includes('/drinks') && data.drinks.length > 1) {
+      setShowRecipies(true);
     }
   };
 
@@ -116,6 +132,22 @@ function SearchBar() {
           First letter
         </label>
       </div>
+      {showRecipies && (
+        <div>
+          {recipes.slice(0, 12).map((recipe: DrinkType | MealType, index) => (
+            <div key={ index } data-testid={ `${index}-recipe-card` }>
+              <img
+                src={ recipe.strMealThumb || recipe.strDrinkThumb }
+                alt={ recipe.strMeal || recipe.strDrink }
+                data-testid={ `${index}-card-img` }
+              />
+              <p data-testid={ `${index}-card-name` }>
+                {recipe.strMeal || recipe.strDrink}
+              </p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
