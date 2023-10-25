@@ -1,8 +1,11 @@
 import React from 'react';
 
-const SearchBar = () => {
+function SearchBar() {
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
+  const INGREDIENT = 'ingredient';
+  const NAME = 'name';
+  const FIRST_LETTER = 'first-letter';
 
   // ao selecionar um radio, o valor do estado de searchType deve ser atualizado
   const handleRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,20 +19,21 @@ const SearchBar = () => {
     // se a busca for por primeira letra e o input tiver mais de 1 caractere, deve-se exibir um window.alert
     if (searchType === 'first-letter' && searchInput.length !== 1) {
       window.alert('Your search must have only 1 (one) character');
-    };
+    }
 
     let ENDPOINT = '';
     /* se o input for válido, deve-se escolher o ENDPOINT para fazer a requisição para a API
     baseado no parametro que foi obtido dinamicamente via radio -> handleRadio -> searchType */
+
     if (validSearchInput) {
-      if (searchType === 'ingredient') {
-        ENDPOINT = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}';
-      } else if (searchType === 'name') {
-        ENDPOINT = 'https://www.themealdb.com/api/json/v1/1/filter.php?s=${searchInput}';
-      } else if (searchType === 'first-letter') {
-        ENDPOINT = 'https://www.themealdb.com/api/json/v1/1/filter.php?f=${searchInput}';
+      if (searchType === INGREDIENT) {
+        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+      } else if (searchType === NAME) {
+        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?s=${searchInput}`;
+      } else if (searchType === FIRST_LETTER) {
+        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?f=${searchInput}`;
       }
-    };
+    }
 
     try {
       const response = await fetch(ENDPOINT);
@@ -40,21 +44,21 @@ const SearchBar = () => {
       console.error(error);
     }
   };
-  
+
   return (
     <div>
       <div>
         <input
-          type='radio'
-          id='ingredient'
-          data-testid='ingredient-search-radio'
-          placeholder='Search...'
+          type="radio"
+          id="search"
+          data-testid="search-input"
+          placeholder="Search..."
           value={ searchInput }
           onChange={ (e) => setSearchInput(e.target.value) }
         />
         <button
-          type='button'
-          data-testid='exec-search-btn'
+          type="button"
+          data-testid="exec-search-btn"
           onClick={ handleSearch }
         >
           Search
@@ -63,36 +67,36 @@ const SearchBar = () => {
       <div>
         <label>
           <input
-            type='radio'
-            id='ingredient-serach-radio'
-            data-testid='ingredient-search-radio'
-            value='ingredient'
+            type="radio"
+            id="ingredient-search-radio"
+            data-testid="ingredient-search-radio"
+            value="ingredient"
             // se for selecionado, searchType deve ser atualizado para 'ingredient'
-            checked={ searchType === 'ingredient' }
+            checked={ searchType === INGREDIENT }
             onChange={ handleRadio }
           />
           Ingredient
         </label>
         <label>
           <input
-            type='radio'
-            id='name-search-radio'
-            data-testid='name-search-radio'
-            value='name'
+            type="radio"
+            id="name-search-radio"
+            data-testid="name-search-radio"
+            value="name"
             // se for selecionado, searchType deve ser atualizado para 'name'
-            checked={ searchType === 'name' }
+            checked={ searchType === NAME }
             onChange={ handleRadio }
           />
           Name
         </label>
         <label>
           <input
-            type='radio'
-            id='first-letter-search-radio'
-            data-testid='first-letter-search-radio'
-            value='first-letter'
+            type="radio"
+            id="first-letter-search-radio"
+            data-testid="first-letter-search-radio"
+            value="first-letter"
             // se for selecionado, searchType deve ser atualizado para 'first-letter'
-            checked={ searchType === 'first-letter' }
+            checked={ searchType === FIRST_LETTER }
             onChange={ handleRadio }
           />
           First letter
@@ -100,6 +104,6 @@ const SearchBar = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SearchBar;
