@@ -1,9 +1,12 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header() {
   const route = useLocation();
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
   const showSearchIcon = !route.pathname.includes('profile')
   && !route.pathname.includes('done-recipes')
   && !route.pathname.includes('favorite-recipes');
@@ -22,6 +25,10 @@ function Header() {
     }
   };
 
+  const toggleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
+  };
+
   return (
     <>
       <header>
@@ -37,18 +44,20 @@ function Header() {
         <h1 data-testid="page-title">
           {pageTitle()}
         </h1>
-        {
-        showSearchIcon
-        && (
-          <button>
-            <img
-              data-testid="search-top-btn"
-              src={ searchIcon }
-              alt="Ícone de Pesquisa"
-            />
-          </button>
-        )
-        }
+        {showSearchIcon && (
+          <div>
+            <button onClick={ toggleSearchBar }>
+              <img
+                data-testid="search-top-btn"
+                src={ searchIcon }
+                alt="Ícone de Pesquisa"
+              />
+            </button>
+            {showSearchBar && (
+              <input data-testid="search-input" type="text" />
+            )}
+          </div>
+        )}
       </header>
       <Outlet />
     </>
