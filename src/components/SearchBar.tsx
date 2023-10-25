@@ -43,10 +43,9 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
-      console.log(data);
       redirectToDetailsPage(data);
-    } catch (error) {
-      console.error(error);
+    } catch {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
 
