@@ -1,10 +1,11 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function SearchBar() {
   const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
+  const navigate = useNavigate();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
   const FIRST_LETTER = 'first-letter';
@@ -42,9 +43,19 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
-      console.log(data.meals);
+      console.log(data);
+      redirectToDetailsPage(data);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const redirectToDetailsPage = (data: any) => {
+    if (route.pathname.includes('/meals') && data?.meals.length === 1) {
+      navigate(`/meals/${data.meals[0].idMeal}`);
+    }
+    if (route.pathname.includes('/drinks') && data?.drinks.length === 1) {
+      navigate(`/drinks/${data.drinks[0].idDrink}`);
     }
   };
 
