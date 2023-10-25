@@ -62,8 +62,8 @@ type RecipeProviderProps = {
 export function RecipeProvider({ children }: RecipeProviderProps) {
   const [mealResults, setMealResults] = useState<Meal[]>([]);
   const [drinkResults, setDrinkResults] = useState<Drink[]>([]);
-  const [mealRecipe, setMealRecipe] = useState<MealType>();
-  const [drinkRecipe, setDrinkRecipe] = useState<DrinkType>();
+  // const [mealRecipe, setMealRecipe] = useState<MealType>();
+  // const [drinkRecipe, setDrinkRecipe] = useState<DrinkType>();
   const [favoriteRecipes, setFavoriteRecipes] = useState<Favorites[]>([]);
 
   const fetchMeals = async () => {
