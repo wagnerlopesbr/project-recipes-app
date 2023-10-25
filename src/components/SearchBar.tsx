@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { DrinkType, MealType } from '../Type/type';
+import RecipeCard from './RecipeCard';
 
 function SearchBar() {
   const route = useLocation();
@@ -133,20 +133,7 @@ function SearchBar() {
         </label>
       </div>
       {showRecipies && (
-        <div>
-          {recipes.slice(0, 12).map((recipe: DrinkType | MealType, index) => (
-            <div key={ index } data-testid={ `${index}-recipe-card` }>
-              <img
-                src={ recipe.strMealThumb || recipe.strDrinkThumb }
-                alt={ recipe.strMeal || recipe.strDrink }
-                data-testid={ `${index}-card-img` }
-              />
-              <p data-testid={ `${index}-card-name` }>
-                {recipe.strMeal || recipe.strDrink}
-              </p>
-            </div>
-          ))}
-        </div>
+        <RecipeCard recipes={ recipes } />
       )}
     </div>
   );
