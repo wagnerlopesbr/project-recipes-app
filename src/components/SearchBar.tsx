@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
 function SearchBar() {
+  const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
   const INGREDIENT = 'ingredient';
@@ -15,6 +17,7 @@ function SearchBar() {
   // ao clicar no botão de buscar, deve-se fazer uma requisição para a API
   const handleSearch = async () => {
     const validSearchInput = searchInput.length > 0;
+    const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
 
     // se a busca for por primeira letra e o input tiver mais de 1 caractere, deve-se exibir um window.alert
     if (searchType === 'first-letter' && searchInput.length !== 1) {
@@ -27,11 +30,11 @@ function SearchBar() {
 
     if (validSearchInput) {
       if (searchType === INGREDIENT) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+        ENDPOINT = `https://www.${dbUrl}.com/api/json/v1/1/filter.php?i=${searchInput}`;
       } else if (searchType === NAME) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+        ENDPOINT = `https://www.${dbUrl}.com/api/json/v1/1/search.php?s=${searchInput}`;
       } else if (searchType === FIRST_LETTER) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+        ENDPOINT = `https://www.${dbUrl}.com/api/json/v1/1/search.php?f=${searchInput}`;
       }
     }
 

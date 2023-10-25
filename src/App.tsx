@@ -3,7 +3,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
-import Header from './pages/Header';
+import Header from './components/Header';
 import Profile from './pages/Profile';
 import Drinks from './pages/Drinks';
 
