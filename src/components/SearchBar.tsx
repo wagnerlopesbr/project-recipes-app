@@ -47,22 +47,21 @@ function SearchBar() {
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
       console.log(data);
-      setSearchResult(data);
-      redirectToDetailsPage();
+      redirectToDetailsPage(data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const redirectToDetailsPage = () => {
+  const redirectToDetailsPage = (data: any) => {
     if (route.pathname.includes('/meals')) {
-      if (searchResult?.meals.length === 1) {
-        navigate(`/meals/${searchResult.meals[0].idMeal}`);
+      if (data?.meals.length === 1) {
+        navigate(`/meals/${data.meals[0].idMeal}`);
       }
     }
     if (route.pathname.includes('/drinks')) {
-      if (searchResult?.drinks.length === 1) {
-        navigate(`/drinks/${searchResult.drinks[0].idDrink}`);
+      if (data?.drinks.length === 1) {
+        navigate(`/drinks/${data.drinks[0].idDrink}`);
       }
     }
   };
