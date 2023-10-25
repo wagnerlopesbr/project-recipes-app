@@ -56,13 +56,13 @@ function SearchBar() {
           id="search"
           data-testid="search-input"
           placeholder="Search..."
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          value={ searchInput }
+          onChange={ (e) => setSearchInput(e.target.value) }
         />
         <button
           type="button"
           data-testid="exec-search-btn"
-          onClick={handleSearch}
+          onClick={ handleSearch }
         >
           Search
         </button>
@@ -75,8 +75,8 @@ function SearchBar() {
             data-testid="ingredient-search-radio"
             value="ingredient"
             // se for selecionado, searchType deve ser atualizado para 'ingredient'
-            checked={searchType === INGREDIENT}
-            onChange={handleRadio}
+            checked={ searchType === INGREDIENT }
+            onChange={ handleRadio }
           />
           Ingredient
         </label>
@@ -87,8 +87,8 @@ function SearchBar() {
             data-testid="name-search-radio"
             value="name"
             // se for selecionado, searchType deve ser atualizado para 'name'
-            checked={searchType === NAME}
-            onChange={handleRadio}
+            checked={ searchType === NAME }
+            onChange={ handleRadio }
           />
           Name
         </label>
@@ -99,8 +99,8 @@ function SearchBar() {
             data-testid="first-letter-search-radio"
             value="first-letter"
             // se for selecionado, searchType deve ser atualizado para 'first-letter'
-            checked={searchType === FIRST_LETTER}
-            onChange={handleRadio}
+            checked={ searchType === FIRST_LETTER }
+            onChange={ handleRadio }
           />
           First letter
         </label>
