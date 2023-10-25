@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Meals from './pages/Meals';
 import Header from './components/Header';
 import Profile from './pages/Profile';
+import Drinks from './pages/Drinks';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
       <Route path="/" Component={ Login } />
       <Route Component={ Header }>
         <Route path="/meals" Component={ Meals } />
-        <Route path="/drinks" />
+        <Route path="/drinks" Component={ Drinks } />
         <Route path="/profile" Component={ Profile } />
         <Route path="/done-recipes" />
         <Route path="/favorite-recipes" />
