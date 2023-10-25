@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
@@ -26,7 +26,13 @@ function Header() {
     <>
       <header>
         <div>
-          <img data-testid="profile-top-btn" src={ profileIcon } alt="Ícone de Perfil" />
+          <Link to="/profile">
+            <img
+              data-testid="profile-top-btn"
+              src={ profileIcon }
+              alt="Ícone de Perfil"
+            />
+          </Link>
         </div>
         <h1 data-testid="page-title">
           {pageTitle()}
