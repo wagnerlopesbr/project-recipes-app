@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { DrinkType, MealType } from '../Type/type';
 
-const RecipeDetails = () => {
+function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
-  const [recipesData, setRecipesData] = useState<DrinkType | MealType>({} as DrinkType | MealType);
+  const [recipesData, setRecipesData] = useState<DrinkType | MealType>(
+    {} as DrinkType | MealType,
+  );
   const route = useLocation();
 
   useEffect(() => {
@@ -13,8 +15,8 @@ const RecipeDetails = () => {
     // fazendo a requisição para as 2 APIs dependendo da rota
     try {
       fetch(`https://www.${dbUrl}.com/api/json/v1/1/lookup.php?i=${id}`)
-      .then((response) => response.json())
-      .then((data) => setRecipesData(data[key][0]));
+        .then((response) => response.json())
+        .then((data) => setRecipesData(data[key][0]));
     } catch (error) {
       console.error(error);
     }
@@ -29,6 +31,6 @@ const RecipeDetails = () => {
       <p>{ recipesData.strInstructions }</p>
     </div>
   );
-};
+}
 
 export default RecipeDetails;

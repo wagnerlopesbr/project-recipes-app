@@ -19,8 +19,8 @@ function App() {
         <Route path="/done-recipes" />
         <Route path="/favorite-recipes" />
       </Route>
-      <Route path="/meals/:id" Component={ RecipeDetails }/>
-      <Route path="/drinks/:id" Component={ RecipeDetails }/>
+      <Route path="/meals/:id" Component={ RecipeDetails } />
+      <Route path="/drinks/:id" Component={ RecipeDetails } />
       <Route path="/meals/:id/in-progress" />
       <Route path="/drinks/:id/in-progress" />
     </Routes>
