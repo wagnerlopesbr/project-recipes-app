@@ -99,8 +99,12 @@ describe('Testes para search bar', () => {
     await user.click(searchBtn);
 
     waitFor(() => {
-      expect(window.location.pathname).toBe('http://localhost:3000/meals/52771');
+      expect(window.location.pathname).toBe('/meals/52771');
     });
+
+    const title = await screen.findByText('Spicy Arrabiata Penne');
+
+    expect(title).toBeInTheDocument();
   });
 
   test('Verifica se ao receber somente um item ao pesquisar na página Drinks, é redirecionado para a página de detalhes do item', async () => {
@@ -120,6 +124,10 @@ describe('Testes para search bar', () => {
     waitFor(() => {
       expect(window.location.pathname).toBe('http://localhost:3000/drinks/178319');
     });
+
+    const title = await screen.findByText('Aquamarine');
+
+    expect(title).toBeInTheDocument();
   });
 
   test('Verifica se caso não tenham receitas que correspondem a pesquisa dispara um alert', async () => {
