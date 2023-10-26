@@ -1,10 +1,10 @@
-import CategoryFilter from '../components/CategoryFilter';
 import Footer from '../components/Footer';
+import Recipes from '../components/Recipes';
 
 function Meals() {
   return (
     <div>
-      <CategoryFilter foodOrBeverage="food" />
+      <Recipes foodOrDrinks="food" />
       <Footer />
     </div>
   );
