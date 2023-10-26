@@ -128,3 +128,10 @@ export interface CheckedIngredient {
   recipeId: string;
   ingredientsChecked: { [index: number]: boolean };
 }
+
+export type IngredientsListType = {
+  recipesData: {
+    // a key com o nome do produto (que é uma string), também é uma string  
+    [product: string]: string;
+  };
+};
