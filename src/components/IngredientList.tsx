@@ -8,17 +8,19 @@ function IngredientList({ recipesData }: IngredientsListType) {
   const ingredients = Object.keys(recipesData).filter(
     (product) => product.includes("strIngredient") && recipesData[product]
   );
+
+  const measurement = Object.keys(recipesData).filter(
+    (measure) => measure.includes("strMeasure") && recipesData[measure]
+  );
   
   return (
     <ul>
       {/* fazendo um .map das infos obtidas no array de "ingredients" */}
       {ingredients.map((product, index) => {
-        // key armazena o index dinâmico do produto do array
-        const key = recipesData[product];
         // ingredientName armazena o "nome" dinâmico do produto/index
         const ingredientName = recipesData[product];
         // incredientKey armazena a info dinâmica do produto/index 
-        const ingredientKey = recipesData[key];
+        const ingredientKey = recipesData[measurement[index]];
         return (
           <li
           data-testid={ `${index}-ingredient-name-and-measure` }

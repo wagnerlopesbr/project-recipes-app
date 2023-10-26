@@ -43,7 +43,7 @@ function RecipeDetails() {
       )}
       {/* se for alcólico (drink), renderiza um parágrafo com a info */}
       {recipesData.strAlcoholic && (
-        <p data-testid="recipe-alcoholic">
+        <p data-testid="recipe-category">
           { recipesData.strAlcoholic }
         </p>
       )}
