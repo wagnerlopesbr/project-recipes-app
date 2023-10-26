@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import RecipeCard from './RecipeCard';
+import RecipiesContext from '../context/RecipiesContext';
+import SearchList from './SearchList';
 
 function SearchBar() {
+  const { searchBarData } = useContext(RecipiesContext);
   const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
-  const [showRecipies, setShowRecipies] = React.useState(false);
-  const [recipes, setRecipes] = React.useState([]);
+
   const navigate = useNavigate();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
@@ -44,23 +45,11 @@ function SearchBar() {
 
     try {
       const response = await fetch(ENDPOINT);
-      if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
       redirectToDetailsPage(data);
-      renderRecipes(data);
-      setRecipes(data.meals || data.drinks);
-    } catch (error) {
+      searchBarData.setRecipies(data.meals || data.drinks);
+    } catch {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');
-      console.error(error);
-    }
-  };
-
-  const renderRecipes = (data: any) => {
-    if (route.pathname.includes('/meals') && data.meals.length > 1) {
-      setShowRecipies(true);
-    }
-    if (route.pathname.includes('/drinks') && data.drinks.length > 1) {
-      setShowRecipies(true);
     }
   };
 
@@ -130,9 +119,7 @@ function SearchBar() {
           First letter
         </label>
       </div>
-      {showRecipies && (
-        <RecipeCard recipes={ recipes } />
-      )}
+      <SearchList listLength={ 12 } />
     </div>
   );
 }
