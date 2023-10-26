@@ -47,11 +47,10 @@ function SearchBar() {
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
       redirectToDetailsPage(data);
-    } catch {
-      window.alert('Sorry, we haven\'t found any recipes for these filters.');
       renderRecipes(data);
       setRecipes(data.meals || data.drinks);
     } catch (error) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
       console.error(error);
     }
   };
