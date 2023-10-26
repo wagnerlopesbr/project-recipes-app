@@ -1,40 +1,41 @@
 import { useEffect, useState } from 'react';
+import { string } from 'prop-types';
 import { fetchAPI } from '../Helpers/FetchAPI';
 
-const foodEndpoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
-const beverageEndpoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-
 type CategoryProps = {
-  foodOrBeverage: string
+  endpoints : {
+    initialList: string,
+    categories: string,
+  };
 };
 
-function CategoryFilter({ foodOrBeverage }: CategoryProps) {
+function CategoryFilter({ endpoints }: CategoryProps) {
+  const { categories, initialList } = endpoints;
+
   const [categoriesList, setCategoriesList] = useState<string[]>();
+  const [toggle, setToggle] = useState();
 
   useEffect(() => {
     const fetchCategories = async () => {
-      switch (foodOrBeverage) {
-        case '/meals': {
-          const foodData = await fetchAPI(foodEndpoint);
-          const food = foodData.meals.slice(0, 5)
-            .map(({ strCategory }) => strCategory);
-          setCategoriesList(food);
-          break; }
+      const data = await fetchAPI(categories);
+      const fiveCategories = Object.values(data)[0].slice(0, 5)
+        .map(({ strCategory }) => strCategory);
 
-        default: {
-          const beverageData = await fetchAPI(beverageEndpoint);
-          const beverage = beverageData.drinks.slice(0, 5)
-            .map(({ strCategory }) => strCategory);
-          setCategoriesList(beverage); }
-      }
+      setCategoriesList(fiveCategories);
     };
     fetchCategories();
   }, []);
 
   return (
     <section>
+      <button
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
       {categoriesList?.map((categoryName) => (
         <button
+          value={ categoryName }
           key={ categoryName }
           data-testid={ `${categoryName}-category-filter` }
         >

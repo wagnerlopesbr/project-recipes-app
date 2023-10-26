@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../Helpers/FetchAPI';
 import RecipiesContext from '../context/RecipiesContext';
@@ -6,9 +6,7 @@ import CategoryFilter from './CategoryFilter';
 import RenderRecipes from './RenderRecipes';
 
 function Recipes() {
-  const [categoriesList, setCategoriesList] = useState<string[]>();
-
-  const { renderRecipes, updateRecipesList } = useContext(RecipiesContext);
+  const { updateRecipesList } = useContext(RecipiesContext);
 
   const { pathname } = useLocation();
 
@@ -33,19 +31,14 @@ function Recipes() {
     const fetchRecipes = async () => {
       const recipesData = await fetchAPI(endpoints.initialList);
       updateRecipesList(Object.values(recipesData)[0]);
-
-      const categories = await fetchAPI(endpoints.categories);
-      setCategoriesList(Object.values(categories));
     };
 
     fetchRecipes();
   }, []);
 
-  console.log(renderRecipes);
-
   return (
     <section>
-      <CategoryFilter foodOrBeverage={ pathname } />
+      <CategoryFilter endpoints={ endpoints } />
       <RenderRecipes listLength={ 12 } />
     </section>
   );
