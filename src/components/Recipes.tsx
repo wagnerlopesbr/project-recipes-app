@@ -2,13 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../Helpers/FetchAPI';
 import RecipiesContext from '../context/RecipiesContext';
-import SearchList from './SearchList';
 import CategoryFilter from './CategoryFilter';
+import RenderRecipes from './RenderRecipes';
 
 function Recipes() {
   const [categoriesList, setCategoriesList] = useState<string[]>();
 
-  const { searchBarData } = useContext(RecipiesContext);
+  const { renderRecipes, updateRecipesList } = useContext(RecipiesContext);
 
   const { pathname } = useLocation();
 
@@ -32,7 +32,7 @@ function Recipes() {
   useEffect(() => {
     const fetchRecipes = async () => {
       const recipesData = await fetchAPI(endpoints.initialList);
-      searchBarData.setRecipies(Object.values(recipesData));
+      updateRecipesList(Object.values(recipesData)[0]);
 
       const categories = await fetchAPI(endpoints.categories);
       setCategoriesList(Object.values(categories));
@@ -41,10 +41,12 @@ function Recipes() {
     fetchRecipes();
   }, []);
 
+  console.log(renderRecipes);
+
   return (
     <section>
-      <CategoryFilter foodOrBeverage="food" />
-      <SearchList listLength={ 12 } />
+      <CategoryFilter foodOrBeverage={ pathname } />
+      <RenderRecipes listLength={ 12 } />
     </section>
   );
 }

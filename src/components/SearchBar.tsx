@@ -4,7 +4,7 @@ import RecipiesContext from '../context/RecipiesContext';
 import SearchList from './SearchList';
 
 function SearchBar() {
-  const { searchBarData } = useContext(RecipiesContext);
+  const { searchBarData, updateRecipesList } = useContext(RecipiesContext);
   const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
@@ -47,6 +47,7 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       const data = await response.json();
       redirectToDetailsPage(data);
+      updateRecipesList(Object.values(data)[0]);
       searchBarData.setRecipies(data.meals || data.drinks);
     } catch {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');

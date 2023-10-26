@@ -14,7 +14,7 @@ function CategoryFilter({ foodOrBeverage }: CategoryProps) {
   useEffect(() => {
     const fetchCategories = async () => {
       switch (foodOrBeverage) {
-        case 'food': {
+        case '/meals': {
           const foodData = await fetchAPI(foodEndpoint);
           const food = foodData.meals.slice(0, 5)
             .map(({ strCategory }) => strCategory);

@@ -8,11 +8,20 @@ type RecipiesProviderProps = {
 };
 
 function RecipiesProvider({ children }: RecipiesProviderProps) {
-  const [renderRecipes, setRenderRecipes] = useState<object[]>([]);
+  const [recipes, setRecipies] = useState([]);
+  const [renderRecipes, setRenderRecipes] = useState<DrinkType[] | MealType[]>([]);
+
+  const updateRecipesList = (newList: DrinkType[] | MealType[]) => {
+    setRenderRecipes(newList);
+  };
 
   const value: RecipiesContextType = {
+    searchBarData: {
+      recipes,
+      setRecipies,
+    },
+    updateRecipesList,
     renderRecipes,
-    setRenderRecipes,
   };
 
   return (
