@@ -1,52 +1,51 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../Helpers/FetchAPI';
-import RecipeCard from './RecipeCard';
+import RecipiesContext from '../context/RecipiesContext';
+import SearchList from './SearchList';
+import CategoryFilter from './CategoryFilter';
 
-type CategoryProps = {
-  foodOrDrinks: string
-};
-
-const foodCatEndpoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
-const drinksCatEndpoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-
-function Recipes({ foodOrDrinks }: CategoryProps) {
-  const [recipesList, setRecipesList] = useState<string[]>();
+function Recipes() {
   const [categoriesList, setCategoriesList] = useState<string[]>();
+
+  const { searchBarData } = useContext(RecipiesContext);
+
+  const { pathname } = useLocation();
+
+  const endpoints = {
+    initialList: '',
+    categories: '',
+  };
+
+  switch (pathname) {
+    case '/drinks': {
+      endpoints.initialList = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      endpoints.categories = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
+      break;
+    }
+    default: {
+      endpoints.initialList = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      endpoints.categories = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
+    }
+  }
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      switch (foodOrDrinks) {
-        case 'food': {
-          const foodData = await fetchAPI(foodEndpoint);
+      const recipesData = await fetchAPI(endpoints.initialList);
+      searchBarData.setRecipies(Object.values(recipesData));
 
-          const foodList = foodData.meals.slice(0, 12);
-          setRecipesList(foodList);
-
-          const foodCategory = foodData.meals.slice(0, 5)
-            .map(({ strCategory }) => strCategory);
-          setCategoriesList(foodCategory);
-
-          break; }
-
-        default: {
-          const drinksData = await fetchAPI(drinksEndpoint);
-
-          const drinksList = drinksData.meals.slice(0, 12);
-          setRecipesList(drinksList);
-
-          const drinksCategory = drinksData.drinks.slice(0, 5)
-            .map(({ strCategory }) => strCategory);
-          setCategoriesList(drinksCategory); }
-      }
+      const categories = await fetchAPI(endpoints.categories);
+      setCategoriesList(Object.values(categories));
     };
+
     fetchRecipes();
   }, []);
 
-  console.log(recipesList);
-  console.log(categoriesList);
-
   return (
-    <p>teste</p>
+    <section>
+      <CategoryFilter foodOrBeverage="food" />
+      <SearchList listLength={ 12 } />
+    </section>
   );
 }
 

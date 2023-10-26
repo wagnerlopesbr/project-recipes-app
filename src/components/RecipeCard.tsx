@@ -1,24 +1,21 @@
 import { DrinkType, MealType } from '../Type/type';
 
-type RecipieProps = {
-  recipes: DrinkType[] | MealType[];
+type RecipeCardProps = {
+  cardIndex: number,
+  recipe: DrinkType | MealType,
 };
 
-function RecipeCard({ recipes }: RecipieProps) {
+function RecipeCard({ cardIndex, recipe }: RecipeCardProps) {
   return (
-    <div>
-      {recipes.slice(0, 12).map((recipe: DrinkType | MealType, index) => (
-        <div key={ index } data-testid={ `${index}-recipe-card` }>
-          <img
-            src={ recipe.strMealThumb || recipe.strDrinkThumb }
-            alt={ recipe.strMeal || recipe.strDrink }
-            data-testid={ `${index}-card-img` }
-          />
-          <p data-testid={ `${index}-card-name` }>
-            {recipe.strMeal || recipe.strDrink}
-          </p>
-        </div>
-      ))}
+    <div data-testid={ `${cardIndex}-recipe-card` }>
+      <img
+        src={ recipe.strMealThumb || recipe.strDrinkThumb }
+        alt={ recipe.strMeal || recipe.strDrink }
+        data-testid={ `${cardIndex}-card-img` }
+      />
+      <p data-testid={ `${cardIndex}-card-name` }>
+        {recipe.strMeal || recipe.strDrink}
+      </p>
     </div>
   );
 }

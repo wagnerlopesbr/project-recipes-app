@@ -4,7 +4,7 @@ import Recipes from '../components/Recipes';
 function Meals() {
   return (
     <div>
-      <Recipes foodOrDrinks="food" />
+      <Recipes />
       <Footer />
     </div>
   );

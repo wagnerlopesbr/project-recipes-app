@@ -31,8 +31,6 @@ function CategoryFilter({ foodOrBeverage }: CategoryProps) {
     fetchCategories();
   }, []);
 
-  console.log(categoriesList);
-
   return (
     <section>
       {categoriesList?.map((categoryName) => (
