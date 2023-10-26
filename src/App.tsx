@@ -3,9 +3,10 @@
 import { Route, Routes } from 'react-router-dom';
 import Login from './pages/Login';
 import Meals from './pages/Meals';
-import Header from './pages/Header';
+import Header from './components/Header';
 import Profile from './pages/Profile';
 import Drinks from './pages/Drinks';
+import RecipeDetails from './components/RecipeDetails';
 
 function App() {
   return (
@@ -18,10 +19,10 @@ function App() {
         <Route path="/done-recipes" />
         <Route path="/favorite-recipes" />
       </Route>
-      <Route path="/meals/:id-da-receita" />
-      <Route path="/drinks/:id-da-receita" />
-      <Route path="/meals/:id-da-receita/in-progress" />
-      <Route path="/drinks/:id-da-receita/in-progress" />
+      <Route path="/meals/:id" Component={ RecipeDetails } />
+      <Route path="/drinks/:id" Component={ RecipeDetails } />
+      <Route path="/meals/:id/in-progress" />
+      <Route path="/drinks/:id/in-progress" />
     </Routes>
   );
 }

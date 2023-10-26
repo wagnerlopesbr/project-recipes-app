@@ -1,8 +1,15 @@
 import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import RecipeCard from './RecipeCard';
 
 function SearchBar() {
+  const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
+  const [showRecipies, setShowRecipies] = React.useState(false);
+  const [recipes, setRecipes] = React.useState([]);
+  console.log(recipes);
+  const navigate = useNavigate();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
   const FIRST_LETTER = 'first-letter';
@@ -15,6 +22,7 @@ function SearchBar() {
   // ao clicar no botão de buscar, deve-se fazer uma requisição para a API
   const handleSearch = async () => {
     const validSearchInput = searchInput.length > 0;
+    const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
 
     // se a busca for por primeira letra e o input tiver mais de 1 caractere, deve-se exibir um window.alert
     if (searchType === 'first-letter' && searchInput.length !== 1) {
@@ -27,11 +35,11 @@ function SearchBar() {
 
     if (validSearchInput) {
       if (searchType === INGREDIENT) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+        ENDPOINT = `https://www.${dbUrl}.com/api/json/v1/1/filter.php?i=${searchInput}`;
       } else if (searchType === NAME) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+        ENDPOINT = `https://www.${dbUrl}.com/api/json/v1/1/search.php?s=${searchInput}`;
       } else if (searchType === FIRST_LETTER) {
-        ENDPOINT = `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+        ENDPOINT = `https://www.${dbUrl}.com/api/json/v1/1/search.php?f=${searchInput}`;
       }
     }
 
@@ -39,9 +47,31 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
-      console.log(data.meals);
+      console.log(data);
+      redirectToDetailsPage(data);
+      renderRecipes(data);
+      setRecipes(data.meals || data.drinks);
+      console.log(recipes);
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const renderRecipes = (data: any) => {
+    if (route.pathname.includes('/meals') && data.meals.length > 1) {
+      setShowRecipies(true);
+    }
+    if (route.pathname.includes('/drinks') && data.drinks.length > 1) {
+      setShowRecipies(true);
+    }
+  };
+
+  const redirectToDetailsPage = (data: any) => {
+    if (route.pathname.includes('/meals') && data?.meals.length === 1) {
+      navigate(`/meals/${data.meals[0].idMeal}`);
+    }
+    if (route.pathname.includes('/drinks') && data?.drinks.length === 1) {
+      navigate(`/drinks/${data.drinks[0].idDrink}`);
     }
   };
 
@@ -102,6 +132,9 @@ function SearchBar() {
           First letter
         </label>
       </div>
+      {showRecipies && (
+        <RecipeCard recipes={ recipes } />
+      )}
     </div>
   );
 }

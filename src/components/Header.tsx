@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
-import SearchBar from '../components/SearchBar';
+import SearchBar from './SearchBar';
 
 function Header() {
   const route = useLocation();
