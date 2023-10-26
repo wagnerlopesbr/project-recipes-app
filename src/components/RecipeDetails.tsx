@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { DrinkType, MealType } from '../Type/type';
+import IngredientList from './IngredientList';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -26,9 +27,42 @@ function RecipeDetails() {
 
   return (
     <div>
-      <h1>{ recipesData.strMeal || recipesData.strDrink }</h1>
-      <img src={ recipesData.strMealThumb || recipesData.strDrinkThumb } alt="recipe" />
-      <p>{ recipesData.strInstructions }</p>
+      <h1 data-testid="recipe-title">
+        { recipesData.strMeal || recipesData.strDrink }
+      </h1>
+      <img
+        data-testid="recipe-photo"
+        src={ recipesData.strMealThumb || recipesData.strDrinkThumb }
+        alt="recipe"
+      />
+      {/* se houver category (meals), renderiza um parágrafo com a info */}
+      {recipesData.strCategory && (
+        <p data-testid="recipe-category">
+          { recipesData.strCategory }
+        </p>
+      )}
+      {/* se for alcólico (drink), renderiza um parágrafo com a info */}
+      {recipesData.strAlcoholic && (
+        <p data-testid="recipe-category">
+          { recipesData.strAlcoholic }
+        </p>
+      )}
+      {/* componente para fazer o .map dos ingredientes do produto */}
+      <IngredientList recipesData={ recipesData } />
+      <p data-testid="instructions">
+        { recipesData.strInstructions }
+      </p>
+      {/* se for meals, haverá info de video, que será renderizado */}
+      {route.pathname.includes('meals') && recipesData.strYoutube && (
+        <iframe
+          data-testid="video"
+          width="560"
+          height="315"
+          src={ `https://www.youtube.com/embed/${recipesData.strYoutube.split('=')[1]}` }
+          title="YouTube video player"
+          allowFullScreen
+        />
+      )}
     </div>
   );
 }
