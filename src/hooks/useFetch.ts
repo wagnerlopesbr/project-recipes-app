@@ -42,7 +42,8 @@ function useFetch<T = any>(url: string) {
 
   React.useEffect(() => {
     fetchApi();
-  }, [fetchApi]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { ...fetchData, refetch: fetchApi };
 }

@@ -47,12 +47,12 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
-      console.log(data);
       redirectToDetailsPage(data);
       renderRecipes(data);
       searchBarData.setRecipies(data.meals || data.drinks);
       console.log(searchBarData.recipes);
     } catch (error) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
       console.error(error);
     }
   };
