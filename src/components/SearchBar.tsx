@@ -8,7 +8,6 @@ function SearchBar() {
   const [searchInput, setSearchInput] = React.useState('');
   const [showRecipies, setShowRecipies] = React.useState(false);
   const [recipes, setRecipes] = React.useState([]);
-  console.log(recipes);
   const navigate = useNavigate();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
@@ -47,12 +46,11 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       if (!response.ok) throw new Error(response.statusText);
       const data = await response.json();
-      console.log(data);
       redirectToDetailsPage(data);
       renderRecipes(data);
       setRecipes(data.meals || data.drinks);
-      console.log(recipes);
     } catch (error) {
+      window.alert('Sorry, we haven\'t found any recipes for these filters.');
       console.error(error);
     }
   };
