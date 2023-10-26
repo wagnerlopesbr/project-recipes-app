@@ -131,7 +131,7 @@ export interface CheckedIngredient {
 
 export type IngredientsListType = {
   recipesData: {
-    // a key com o nome do produto (que é uma string), também é uma string  
+    // a key com o nome do produto (que é uma string), também é uma string
     [product: string]: string;
   };
 };
