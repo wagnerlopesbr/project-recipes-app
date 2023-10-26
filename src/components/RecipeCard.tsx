@@ -1,10 +1,11 @@
+import { useContext } from 'react';
 import { DrinkType, MealType } from '../Type/type';
+import RecipiesContext from '../context/RecipiesContext';
 
-type RecipieProps = {
-  recipes: DrinkType[] | MealType[];
-};
+function RecipeCard() {
+  const { searchBarData } = useContext(RecipiesContext);
+  const { recipes } = searchBarData;
 
-function RecipeCard({ recipes }: RecipieProps) {
   return (
     <div>
       {recipes.slice(0, 12).map((recipe: DrinkType | MealType, index) => (

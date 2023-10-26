@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RecipeCard from './RecipeCard';
+import RecipiesContext from '../context/RecipiesContext';
 
 function SearchBar() {
+  const { searchBarData } = useContext(RecipiesContext);
   const route = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
   const [showRecipies, setShowRecipies] = React.useState(false);
-  const [recipes, setRecipes] = React.useState([]);
-  console.log(recipes);
   const navigate = useNavigate();
   const INGREDIENT = 'ingredient';
   const NAME = 'name';
@@ -50,8 +50,8 @@ function SearchBar() {
       console.log(data);
       redirectToDetailsPage(data);
       renderRecipes(data);
-      setRecipes(data.meals || data.drinks);
-      console.log(recipes);
+      searchBarData.setRecipies(data.meals || data.drinks);
+      console.log(searchBarData.recipes);
     } catch (error) {
       console.error(error);
     }
@@ -133,7 +133,7 @@ function SearchBar() {
         </label>
       </div>
       {showRecipies && (
-        <RecipeCard recipes={ recipes } />
+        <RecipeCard />
       )}
     </div>
   );
