@@ -22,11 +22,11 @@ function BtnBeginRecipe({ page, recipeId }: PropType) {
       return false;
     }
 
-  //   const localStorageIngredients = localStorage.getItem('inProgressRecipes');
-  //   if (localStorageIngredients) {
-  //     const inProgressRecipes = JSON.parse(localStorageIngredients);
-  //     return inProgressRecipes.meals?.[recipeId] || inProgressRecipes.drinks?.[recipeId];
-  //   }
+    //   const localStorageIngredients = localStorage.getItem('inProgressRecipes');
+    //   if (localStorageIngredients) {
+    //     const inProgressRecipes = JSON.parse(localStorageIngredients);
+    //     return inProgressRecipes.meals?.[recipeId] || inProgressRecipes.drinks?.[recipeId];
+    //   }
 
   //   return false;
   };
