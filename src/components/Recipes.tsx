@@ -34,7 +34,7 @@ function Recipes() {
     };
 
     fetchRecipes();
-  }, []);
+  }, [endpoints.initialList, updateRecipesList]);
 
   return (
     <section>
