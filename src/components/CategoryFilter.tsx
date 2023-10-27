@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { string } from 'prop-types';
 import { fetchAPI } from '../Helpers/FetchAPI';
 
 type CategoryProps = {
