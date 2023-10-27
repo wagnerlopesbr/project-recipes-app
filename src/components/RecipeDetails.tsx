@@ -11,8 +11,11 @@ function RecipeDetails() {
     {} as DrinkType | MealType,
   );
   const route = useLocation();
-  useFetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-  useFetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+  const mealsRecomendations = useFetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const drinksRecomendations = useFetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+
+  console.log(mealsRecomendations);
+  console.log(drinksRecomendations);
 
   useEffect(() => {
     const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';

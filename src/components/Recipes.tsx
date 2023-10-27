@@ -39,7 +39,7 @@ function Recipes() {
     };
 
     fetchRecipes();
-  }, []);
+  }, [endpoints.categories, endpoints.initialList, updateRecipesList]);
 
   return (
     <section>
