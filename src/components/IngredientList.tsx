@@ -4,8 +4,7 @@ import IngredientCard from './ingredients/IngredientCard';
 
 function IngredientList({ recipesData }: IngredientsListType) {
   /* armazenando as chaves com o Object.keys em um array
-    para as mesmas serem filtradas conforme
-    incluírem o parâmetro */
+    para as mesmas serem filtradas conforme incluírem o parâmetro */
   const ingredients = Object.keys(recipesData).filter(
     (product) => product.includes('strIngredient') && recipesData[product],
   );

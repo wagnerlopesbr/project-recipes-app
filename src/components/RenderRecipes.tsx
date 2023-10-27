@@ -27,4 +27,5 @@ function RenderRecipes({ listLength }: RenderRecipesProps) {
     </div>
   );
 }
+
 export default RenderRecipes;
