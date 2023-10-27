@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { DrinkType, MealType } from '../Type/type';
 import IngredientList from './IngredientList';
+import ShareButton from './ShareButton';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -63,6 +64,7 @@ function RecipeDetails() {
           allowFullScreen
         />
       )}
+      <ShareButton />
     </div>
   );
 }
