@@ -2,7 +2,7 @@ import { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../Helpers/FetchAPI';
 import RecipiesContext from '../context/RecipiesContext';
-import CategoryFilter from './CategoryFilter';
+import CategoryFilter from './filters/CategoryFilter';
 import RenderRecipes from './RenderRecipes';
 
 function Recipes() {

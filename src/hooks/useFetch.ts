@@ -23,7 +23,6 @@ function useFetch<T = any>(url: string) {
     const cachedData = getFromCache<T>(url);
     if (cachedData) {
       setFetchData((state) => ({ ...state, data: cachedData }));
-      console.log('aquiii');
       return;
     }
 

@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
-import { fetchAPI } from '../Helpers/FetchAPI';
+import { useContext, useEffect, useState } from 'react';
+import { fetchAPI } from '../../Helpers/FetchAPI';
+import FilterButton from './FilterButton';
+import RecipiesContext from '../../context/RecipiesContext';
 
 type CategoryProps = {
   endpoints : {
@@ -10,9 +12,9 @@ type CategoryProps = {
 
 function CategoryFilter({ endpoints }: CategoryProps) {
   const { categories, initialList } = endpoints;
+  const { updateRecipesList } = useContext(RecipiesContext);
 
   const [categoriesList, setCategoriesList] = useState<string[]>();
-  const [toggle, setToggle] = useState();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -25,22 +27,21 @@ function CategoryFilter({ endpoints }: CategoryProps) {
     fetchCategories();
   }, []);
 
+  const handleClick = async () => {
+    const recipesData = await fetchAPI(initialList);
+    updateRecipesList(Object.values(recipesData)[0]);
+  };
+
   return (
     <section>
       <button
         data-testid="All-category-filter"
+        onClick={ handleClick }
       >
         All
       </button>
       {categoriesList?.map((categoryName) => (
-        <button
-          value={ categoryName }
-          key={ categoryName }
-          data-testid={ `${categoryName}-category-filter` }
-        >
-          {categoryName}
-
-        </button>
+        <FilterButton key={ categoryName } buttonInfo={ { categoryName, initialList } } />
       ))}
     </section>
   );
