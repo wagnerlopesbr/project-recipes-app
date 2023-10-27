@@ -21,7 +21,7 @@ function RecipeDetails() {
     } catch (error) {
       console.error(error);
     }
-  }, [id]);
+  }, [id, route.pathname]);
 
   if (!recipesData) return <div>Loading...</div>;
 

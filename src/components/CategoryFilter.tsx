@@ -29,7 +29,7 @@ function CategoryFilter({ foodOrBeverage }: CategoryProps) {
       }
     };
     fetchCategories();
-  }, []);
+  }, [foodOrBeverage]);
 
   return (
     <section>

@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { fetchAPI } from '../Helpers/FetchAPI';
 import { DRINKS_LINK, MEALS_LINK } from '../Helpers/Links';
-import { DrinkType, MealType } from '../Type/type';
 
 export interface Meal {
   idMeal: string;
