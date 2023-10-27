@@ -7,4 +7,15 @@ export type RecipiesContextType = {
   }
   renderRecipes: DrinkType[] | MealType[],
   updateRecipesList: (newList: DrinkType[] | MealType[]) => void,
+  recomendation: {
+    drinks: {
+      mealsRecomendation: string,
+      setMealsRecomendation: React.Dispatch<React.SetStateAction<string>>;
+    },
+    meals: {
+      drinksRecomendation: string,
+      setDrinksRecomendation: React.Dispatch<React.SetStateAction<string>>;
+    }
+
+  }
 };

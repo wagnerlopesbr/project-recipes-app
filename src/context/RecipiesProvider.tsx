@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { RecipiesContextType } from '../Type/contextType';
 import RecipiesContext from './RecipiesContext';
 import { DrinkType, MealType } from '../Type/type';
+import { set } from 'cypress/types/lodash';
 
 type RecipiesProviderProps = {
   children: React.ReactNode;
@@ -10,6 +11,8 @@ type RecipiesProviderProps = {
 function RecipiesProvider({ children }: RecipiesProviderProps) {
   const [recipes, setRecipies] = useState([]);
   const [renderRecipes, setRenderRecipes] = useState<DrinkType[] | MealType[]>([]);
+  const [drinksRecomendation, setDrinksRecomendation] = useState('');
+  const [mealsRecomendation, setMealsRecomendation] = useState('');
 
   const updateRecipesList = (newList: DrinkType[] | MealType[]) => {
     setRenderRecipes(newList);
@@ -22,6 +25,16 @@ function RecipiesProvider({ children }: RecipiesProviderProps) {
     },
     updateRecipesList,
     renderRecipes,
+    recomendation: {
+      drinks: {
+        mealsRecomendation,
+        setMealsRecomendation,
+      },
+      meals: {
+        drinksRecomendation,
+        setDrinksRecomendation,
+      },
+    }
   };
 
   return (
