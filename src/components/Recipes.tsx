@@ -6,7 +6,11 @@ import CategoryFilter from './filters/CategoryFilter';
 import RenderRecipes from './RenderRecipes';
 
 function Recipes() {
-  const { updateRecipesList } = useContext(RecipiesContext);
+  const {
+    updateRecipesList,
+    loading,
+    updateLoading,
+  } = useContext(RecipiesContext);
 
   const { pathname } = useLocation();
 
@@ -19,12 +23,18 @@ function Recipes() {
 
   useEffect(() => {
     const fetchRecipes = async () => {
+      updateLoading(true);
       const recipesData = await fetchAPI(endpoints.initialList);
       updateRecipesList(Object.values(recipesData)[0]);
+      updateLoading(false);
     };
 
     fetchRecipes();
   }, []);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
     <section>
