@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../Helpers/FetchAPI';
 import RecipiesContext from '../context/RecipiesContext';
-import CategoryFilter from './CategoryFilter';
+import CategoryFilter from './filters/CategoryFilter';
 import RenderRecipes from './RenderRecipes';
 import SearchList from './SearchList';
 
@@ -10,8 +10,6 @@ function Recipes() {
   const [categoriesList, setCategoriesList] = useState<string[]>();
   const { renderRecipes, updateRecipesList } = useContext(RecipiesContext);
   const [showRecipes, setShowRecipes] = React.useState(false);
-
-  console.log();
 
   const { pathname } = useLocation();
 
@@ -36,9 +34,6 @@ function Recipes() {
     const fetchRecipes = async () => {
       const recipesData = await fetchAPI(endpoints.initialList);
       updateRecipesList(Object.values(recipesData)[0]);
-
-      const categories = await fetchAPI(endpoints.categories);
-      setCategoriesList(Object.values(categories));
     };
 
     fetchRecipes();
