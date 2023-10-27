@@ -4,6 +4,7 @@ import { DrinkType, MealType } from '../Type/type';
 import IngredientList from './IngredientList';
 import ShareButton from './ShareButton';
 import useFetch from '../hooks/useFetch';
+import DetailsCarousel from './DetailsCarousel';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -11,8 +12,8 @@ function RecipeDetails() {
     {} as DrinkType | MealType,
   );
   const route = useLocation();
-  useFetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-  useFetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+  const mealsRecomendations = useFetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const drinksRecomendations = useFetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
 
   useEffect(() => {
     const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
@@ -63,6 +64,10 @@ function RecipeDetails() {
           allowFullScreen
         />
       )}
+      <DetailsCarousel
+        drinks={ drinksRecomendations.data }
+        meals={ mealsRecomendations.data }
+      />
       <ShareButton />
     </div>
   );
