@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RecipiesContext from '../context/RecipiesContext';
-import SearchList from './SearchList';
+import { DrinkType, MealType } from '../Type/type';
 
 function SearchBar() {
-  const { searchBarData, updateRecipesList } = useContext(RecipiesContext);
-  const route = useLocation();
+  const { updateRecipesList } = useContext(RecipiesContext);
+  const { pathname } = useLocation();
   const [searchType, setSearchType] = React.useState('');
   const [searchInput, setSearchInput] = React.useState('');
 
@@ -22,7 +22,7 @@ function SearchBar() {
   // ao clicar no botão de buscar, deve-se fazer uma requisição para a API
   const handleSearch = async () => {
     const validSearchInput = searchInput.length > 0;
-    const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
+    const dbUrl = pathname === '/drinks' ? 'thecocktaildb' : 'themealdb';
 
     // se a busca for por primeira letra e o input tiver mais de 1 caractere, deve-se exibir um window.alert
     if (searchType === 'first-letter' && searchInput.length !== 1) {
@@ -47,18 +47,17 @@ function SearchBar() {
       const response = await fetch(ENDPOINT);
       const data = await response.json();
       redirectToDetailsPage(data);
-      updateRecipesList(Object.values(data)[0]);
-      searchBarData.setRecipies(data.meals || data.drinks);
+      updateRecipesList(Object.values(data)[0] as DrinkType[] | MealType[]);
     } catch {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
   };
 
   const redirectToDetailsPage = (data: any) => {
-    if (route.pathname.includes('/meals') && data?.meals.length === 1) {
+    if (pathname === '/meals' && data?.meals.length === 1) {
       navigate(`/meals/${data.meals[0].idMeal}`);
     }
-    if (route.pathname.includes('/drinks') && data?.drinks.length === 1) {
+    if (pathname === '/drinks' && data?.drinks.length === 1) {
       navigate(`/drinks/${data.drinks[0].idDrink}`);
     }
   };
@@ -120,7 +119,6 @@ function SearchBar() {
           First letter
         </label>
       </div>
-      <SearchList listLength={ 12 } />
     </div>
   );
 }

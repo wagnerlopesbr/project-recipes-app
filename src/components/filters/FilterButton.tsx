@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../../Helpers/FetchAPI';
 import RecipiesContext from '../../context/RecipiesContext';
+import { DrinkType, MealType } from '../../Type/type';
 
 type ButtonProps = {
   buttonInfo: {
@@ -31,10 +32,10 @@ function FilterButton({ buttonInfo: { categoryName, initialList } }: ButtonProps
   const handleClick = async () => {
     if (!toggle) {
       const recipesData = await fetchAPI(searchEndpoint());
-      updateRecipesList(Object.values(recipesData)[0]);
+      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
     } else {
       const recipesData = await fetchAPI(initialList);
-      updateRecipesList(Object.values(recipesData)[0]);
+      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
     }
     setToggle(!toggle);
   };
