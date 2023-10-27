@@ -1,7 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import Footer from "../components/Footer";
-import Recipes from "../components/Recipes";
-import RecipiesContext from "../context/RecipiesContext";
+import Footer from '../components/Footer';
+import Recipes from '../components/Recipes';
 
 function Meals() {
   return (
