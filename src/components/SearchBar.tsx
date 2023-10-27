@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RecipiesContext from '../context/RecipiesContext';
-import SearchList from './SearchList';
 
 function SearchBar() {
   const { searchBarData, updateRecipesList } = useContext(RecipiesContext);
@@ -120,7 +119,6 @@ function SearchBar() {
           First letter
         </label>
       </div>
-      <SearchList listLength={ 12 } />
     </div>
   );
 }

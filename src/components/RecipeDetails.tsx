@@ -3,6 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { DrinkType, MealType } from '../Type/type';
 import IngredientList from './IngredientList';
 import ShareButton from './ShareButton';
+import useFetch from '../hooks/useFetch';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -10,6 +11,8 @@ function RecipeDetails() {
     {} as DrinkType | MealType,
   );
   const route = useLocation();
+  useFetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  useFetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
 
   useEffect(() => {
     const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';

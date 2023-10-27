@@ -6,36 +6,37 @@ import { DrinkType, MealType } from '../Type/type';
 
 type RenderRecipesProps = {
   listLength: number;
+  showRecipes: boolean;
+  setShowRecipes: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function RenderRecipes({ listLength }: RenderRecipesProps) {
+function RenderRecipes({ listLength, setShowRecipes, showRecipes }: RenderRecipesProps) {
   const { renderRecipes } = useContext(RecipiesContext);
   const route = useLocation();
-  const [currentRoute, setCurrentRoute] = React.useState<'/meals/' | '/drinks/'>(
-    '/meals/',
-  );
 
   useEffect(() => {
     if (route.pathname.includes('/meals')) {
-      setCurrentRoute('/meals/');
+      setShowRecipes(false);
     }
     if (route.pathname.includes('/drinks')) {
-      setCurrentRoute('/drinks/');
+      setShowRecipes(false);
     }
-  }, [renderRecipes.length, route.pathname]);
+  }, [route.pathname, setShowRecipes]);
 
   return (
     <div>
-      <ul>
-        {renderRecipes?.slice(0, listLength)
-          .map((recipe: DrinkType | MealType, index) => (
-            <li key={ index }>
-              <Link to={ `${currentRoute}${recipe.idMeal || recipe.idDrink}` }>
-                <RecipeCard cardIndex={ index } recipe={ recipe } />
-              </Link>
-            </li>
-          ))}
-      </ul>
+      {showRecipes === false && (
+        <ul>
+          {renderRecipes?.slice(0, listLength)
+            .map((recipe: DrinkType | MealType, index) => (
+              <li key={ index }>
+                <Link to={ `${route.pathname}${recipe.idMeal || recipe.idDrink}` }>
+                  <RecipeCard cardIndex={ index } recipe={ recipe } />
+                </Link>
+              </li>
+            ))}
+        </ul>
+      )}
     </div>
   );
 }
