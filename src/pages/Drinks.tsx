@@ -2,19 +2,10 @@ import { useContext, useEffect, useState } from 'react';
 import Footer from '../components/Footer';
 import Recipes from '../components/Recipes';
 import RecipiesContext from '../context/RecipiesContext';
+import { useLocation } from 'react-router-dom';
+import { d } from 'vitest/dist/types-e3c9754d';
 
 function Drinks() {
-  const { recomendation } = useContext(RecipiesContext);
-  const { setMealsRecomendation } = recomendation.drinks;
-  useEffect(() => {
-    fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.drinks && data.drinks.length > 0) {
-          setMealsRecomendation(data.drinks);
-        }
-      });
-  });
   return (
     <div>
       <Recipes />
