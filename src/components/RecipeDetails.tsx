@@ -5,6 +5,8 @@ import IngredientList from './IngredientList';
 import ShareButton from './ShareButton';
 import useFetch from '../hooks/useFetch';
 import DetailsCarousel from './DetailsCarousel';
+import BtnBeginRecipe from './BtnBeginRecipe';
+import StartRecipeButton from './StartRecipeButton';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -69,6 +71,8 @@ function RecipeDetails() {
         meals={ mealsRecomendations.data }
       />
       <ShareButton />
+      {/* <BtnBeginRecipe /> */}
+      <StartRecipeButton />
     </div>
   );
 }

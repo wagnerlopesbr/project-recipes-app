@@ -2,7 +2,7 @@ export type CategoryType = {
   strCategory: string;
 };
 
-export type DoneRecipesLocal = {
+export type DoneRecipesLSType = {
 
   id?: string,
   type?: string,
@@ -16,7 +16,7 @@ export type DoneRecipesLocal = {
 
 };
 
-export type MakingRecipes = {
+export type inProgressRecipesType = {
   meals: { [recipeId: string]: number[] };
   drinks: { [recipeId: string]: number[] };
 };
