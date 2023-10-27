@@ -1,6 +1,6 @@
 import React from 'react';
-import { IngredientsListType } from '../Type/type';
-import IngredientCard from './ingredients/IngredientCard';
+import { IngredientsListType } from '../../Type/type';
+import IngredientCard from './IngredientCard';
 
 function IngredientList({ recipesData }: IngredientsListType) {
   /* armazenando as chaves com o Object.keys em um array

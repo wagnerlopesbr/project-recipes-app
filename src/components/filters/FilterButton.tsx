@@ -2,6 +2,7 @@ import { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../../Helpers/FetchAPI';
 import RecipiesContext from '../../context/RecipiesContext';
+import { DrinkType, MealType } from '../../Type/type';
 
 type ButtonProps = {
   buttonInfo: {
@@ -20,11 +21,16 @@ function FilterButton({ buttonInfo: { categoryName, initialList } }: ButtonProps
   const handleClick = async () => {
     const apiURL = pathname === '/drinks' ? 'thecocktaildb' : 'themealdb';
     if (!toggle) {
+<<<<<<< HEAD
       const recipesData = await fetchAPI(`https://www.${apiURL}.com/api/json/v1/1/filter.php?c=${categoryName}`);
       updateRecipesList(Object.values(recipesData)[0]);
+=======
+      const recipesData = await fetchAPI(searchEndpoint());
+      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
+>>>>>>> group-8-dev
     } else {
       const recipesData = await fetchAPI(initialList);
-      updateRecipesList(Object.values(recipesData)[0]);
+      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
     }
     setToggle(!toggle);
   };

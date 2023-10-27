@@ -3,7 +3,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchAPI } from '../Helpers/FetchAPI';
 import { DrinkType, MealType } from '../Type/type';
 import RecipiesContext from '../context/RecipiesContext';
-import IngredientList from './IngredientList';
+import IngredientList from './ingredients/IngredientList';
 import ShareButton from './ShareButton';
 import FavoriteButton from './buttons/FavoriteButton';
 import FinishButton from './buttons/FinishButton';

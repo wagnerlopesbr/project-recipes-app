@@ -30,7 +30,7 @@ function Recipes() {
     };
 
     fetchRecipes();
-  }, []);
+  }, [endpoints.initialList, updateRecipesList]);
 
   if (loading) {
     return <h2>Loading...</h2>;
