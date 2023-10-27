@@ -6,31 +6,34 @@ import RecipeCard from './RecipeCard';
 
 type RecipeListProps = {
   listLength: number;
-  showRecipes: boolean;
-  setShowRecipes: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-function SearchList({ listLength, setShowRecipes, showRecipes }: RecipeListProps) {
+function SearchList({ listLength }: RecipeListProps) {
   const { searchBarData } = useContext(RecipiesContext);
   const { recipes } = searchBarData;
   const route = useLocation();
+  const [showRecipies, setShowRecipies] = React.useState(false);
+  const [currentRoute, setCurrentRoute] = React.useState<'/meals/' | '/drinks/'>(
+    '/meals/',
+  );
 
   useEffect(() => {
     if (route.pathname.includes('/meals') && recipes.length > 1) {
-      setShowRecipes(true);
+      setShowRecipies(true);
+      setCurrentRoute('/meals/');
     }
     if (route.pathname.includes('/drinks') && recipes.length > 1) {
-      setShowRecipes(true);
+      setShowRecipies(true);
+      setCurrentRoute('/drinks/');
     }
-  }, [recipes.length, route.pathname, setShowRecipes]);
+  }, [recipes.length, route.pathname]);
 
   return (
     <div>
-      {showRecipes && (
+      {showRecipies && (
         <ul>
           {recipes.slice(0, listLength).map((recipe: DrinkType | MealType, index) => (
             <li key={ index }>
-              <Link to={ `${route.pathname}${recipe.idMeal || recipe.idDrink}` }>
+              <Link to={ `${currentRoute}${recipe.idMeal || recipe.idDrink}` }>
                 <RecipeCard cardIndex={ index } recipe={ recipe } />
               </Link>
             </li>
@@ -40,5 +43,4 @@ function SearchList({ listLength, setShowRecipes, showRecipes }: RecipeListProps
     </div>
   );
 }
-
 export default SearchList;
