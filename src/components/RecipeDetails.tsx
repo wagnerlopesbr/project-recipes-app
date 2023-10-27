@@ -1,9 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { DrinkType, MealType } from '../Type/type';
 import IngredientList from './IngredientList';
 import ShareButton from './ShareButton';
-import RecipiesContext from '../context/RecipiesContext';
+import useFetch from '../hooks/useFetch';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -11,10 +11,9 @@ function RecipeDetails() {
     {} as DrinkType | MealType,
   );
   const route = useLocation();
-  const { recomendation } = useContext(RecipiesContext);
-  const { setMealsRecomendation } = recomendation.drinks;
-  const { setDrinksRecomendation } = recomendation.meals;
-  
+  useFetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  useFetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+
   useEffect(() => {
     const dbUrl = route.pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
     const key = route.pathname.includes('drinks') ? 'drinks' : 'meals';
@@ -27,32 +26,6 @@ function RecipeDetails() {
       console.error(error);
     }
   }, [id, route.pathname]);
-
-  useEffect(() => {
-    if (route.pathname.includes('drinks')) {
-      fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.drinks && data.drinks.length > 0) {
-            setMealsRecomendation(data.drinks);
-          }
-        })
-    }
-  }, []);
-
-  useEffect(() => {
-    if (route.pathname.includes('meals')) {
-      fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.meals && data.meals.length > 0) {
-            setDrinksRecomendation(data.meals);
-          }
-        })
-    }
-  }, []);
-
-
 
   if (!recipesData) return <div>Loading...</div>;
 
