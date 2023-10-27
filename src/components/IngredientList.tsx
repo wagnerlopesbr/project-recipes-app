@@ -1,5 +1,6 @@
 import React from 'react';
 import { IngredientsListType } from '../Type/type';
+import IngredientCard from './ingredients/IngredientCard';
 
 function IngredientList({ recipesData }: IngredientsListType) {
   /* armazenando as chaves com o Object.keys em um array
@@ -22,12 +23,13 @@ function IngredientList({ recipesData }: IngredientsListType) {
         // incredientKey armazena a info dinâmica do produto/index
         const ingredientKey = recipesData[measurement[index]];
         return (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ product }
-          >
-            { `${ingredientName} - ${ingredientKey}` }
-          </li>
+          <IngredientCard
+            key={ ingredientName }
+            index={ index }
+            product={ product }
+            ingredientName={ ingredientName }
+            ingredientKey={ ingredientKey }
+          />
         );
       })}
     </ul>
