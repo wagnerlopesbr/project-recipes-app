@@ -88,9 +88,6 @@ export function RecipeProvider({ children }: RecipeProviderProps) {
     fetchDrinks();
   }, []);
 
-  console.log('Meal Results:', mealResults);
-  console.log('Drink Results:', drinkResults);
-
   return (
     <RecipeContext.Provider
       value={ {

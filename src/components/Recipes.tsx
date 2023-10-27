@@ -41,8 +41,6 @@ function Recipes() {
     fetchRecipes();
   }, []);
 
-  console.log(renderRecipes);
-
   return (
     <section>
       <CategoryFilter foodOrBeverage={ pathname } />
