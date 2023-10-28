@@ -16,9 +16,9 @@ export type DoneRecipesLSType = {
 
 };
 
-export type inProgressRecipesType = {
-  meals: { [recipeId: string]: number[] };
-  drinks: { [recipeId: string]: number[] };
+export type InProgressRecipesType = {
+  meals: { [recipeId: string]: string[] };
+  drinks: { [recipeId: string]: string[] };
 };
 
 export type DrinkType = {

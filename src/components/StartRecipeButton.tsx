@@ -1,36 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { DoneRecipesLSType, inProgressRecipesType} from '../Type/type';
+import { DoneRecipesLSType, InProgressRecipesType } from '../Type/type';
 
 type PropType = {
-  page?: string;
-  recipeId?: string | undefined;
-  recipeType?: 'meal' | 'drink';
+  path: 'drinks' | 'meals';
+  recipeId: string;
+  // recipeType: 'meal' | 'drink';
 };
 
-function StartRecipeButton({ page, recipeId, recipeType }: PropType) {
-  const [doneRecipes, setDoneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
-  const [inProgress, setInProgress] = useLocalStorage<inProgressRecipesType[]>('inProgressRecipes', []);
+function StartRecipeButton({ path, recipeId }: PropType) {
+  const [doneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
+  const [inProgress] = useLocalStorage<InProgressRecipesType>('inProgressRecipes');
 
-  doneRecipes.find((recipe: any) => (
+  const isDone = doneRecipes.find((recipe: any) => (
     recipe.id === recipeId
   ));
 
-  inProgress.find((recipe: any) => (
-    recipe.id === recipeId
-  ));
+  const inProgressRecipes = path === 'meals' ? inProgress.meals : inProgress.drinks;
+  const isProgress = inProgressRecipes[recipeId];
 
   return (
     <div>
-      {doneRecipes && (
+      {!isDone && (
         <button
-        style={ { position: 'fixed', bottom: '0px' } }
-        data-testid="start-recipe-btn"
+          style={ { position: 'fixed', bottom: '0px' } }
+          data-testid="start-recipe-btn"
         // onClick={ handleStartRecipeClick }
-      >
-        {!inProgress ? 'Continue Recipe' : 'Start Recipe'}
-      </button>
+        >
+          {isProgress ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
       )}
     </div>
   );

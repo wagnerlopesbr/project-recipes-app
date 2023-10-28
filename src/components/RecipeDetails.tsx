@@ -72,7 +72,14 @@ function RecipeDetails() {
       />
       <ShareButton />
       {/* <BtnBeginRecipe /> */}
-      <StartRecipeButton />
+      {
+        recipesData['idMeal' || 'idDrink'] && (
+          <StartRecipeButton
+            path={ route.pathname.includes('/drinks') ? 'drinks' : 'meals' }
+            recipeId={ recipesData['idMeal' || 'idDrink'] }
+          />
+        )
+      }
     </div>
   );
 }
