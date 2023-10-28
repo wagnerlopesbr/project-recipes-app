@@ -119,6 +119,11 @@ export type MealType = {
   [key: string]: string;
 };
 
+export type ApiReturn = {
+  meals: MealType[];
+  drinks: DrinkType[];
+};
+
 export type IngredientsType = {
   medida: string;
   ingrediente: string;
