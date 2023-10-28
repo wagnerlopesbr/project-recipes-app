@@ -20,10 +20,10 @@ function DetailsCarousel(
   const [recipes, setRecipes] = useState<MealType[] | DrinkType[]>([]);
 
   useEffect(() => {
-    if (route.pathname.includes('drinks') && drinks) {
+    if (route.pathname.includes('drinks') && meals) {
       setRecipes(meals.meals);
     }
-    if (route.pathname.includes('meals') && meals) {
+    if (route.pathname.includes('meals') && drinks) {
       setRecipes(drinks.drinks);
     }
   }, [drinks, meals, route.pathname]);

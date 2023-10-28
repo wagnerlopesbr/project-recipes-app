@@ -3,6 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 
 import { renderWithRouter } from './helpers/renderWithRouter';
 import App from '../App';
+import { oneDrinkMock, oneMealMock } from './mocks/fetch';
 
 const mealSearchUrl = 'https://www.themealdb.com/api/json/v1/1/filter.php?i=rice';
 const drinkSearchUrl = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin';
@@ -98,12 +99,11 @@ describe('Testes para search bar', () => {
     await user.click(nameRadio);
     await user.click(searchBtn);
 
-    waitFor(() => {
+    await waitFor(async () => {
       expect(window.location.pathname).toBe('/meals/52771');
     });
 
     const title = await screen.findByText('Spicy Arrabiata Penne');
-
     expect(title).toBeInTheDocument();
   });
 
@@ -122,7 +122,7 @@ describe('Testes para search bar', () => {
     await user.click(searchBtn);
 
     waitFor(() => {
-      expect(window.location.pathname).toBe('http://localhost:3000/drinks/178319');
+      expect(window.location.pathname).toBe('/drinks/178319');
     });
 
     const title = await screen.findByText('Aquamarine');
