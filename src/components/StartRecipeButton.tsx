@@ -9,14 +9,22 @@ type PropType = {
 
 function StartRecipeButton({ path, recipeId }: PropType) {
   const [doneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
-  const [inProgress] = useLocalStorage<InProgressRecipesType>('inProgressRecipes');
 
   const isDone = doneRecipes.find((recipe: any) => (
     recipe.id === recipeId
   ));
 
-  const inProgressRecipes = path === 'meals' ? inProgress.meals : inProgress.drinks;
-  const isProgress = inProgressRecipes[recipeId];
+  const isRecipeInProgress = () => {
+    if (!recipeId) {
+      return false;
+    }
+
+    const localStorageIngredients = localStorage.getItem('inProgressRecipes');
+    if (localStorageIngredients) {
+      useLocalStorage<InProgressRecipesType>('inProgressRecipes');
+    }
+    return false;
+  };
 
   return (
     <div>
@@ -26,7 +34,7 @@ function StartRecipeButton({ path, recipeId }: PropType) {
           data-testid="start-recipe-btn"
         // onClick={ handleStartRecipeClick }
         >
-          {isProgress ? 'Continue Recipe' : 'Start Recipe'}
+          {isRecipeInProgress() ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       )}
     </div>
