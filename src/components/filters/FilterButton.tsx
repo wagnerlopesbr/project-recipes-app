@@ -18,20 +18,10 @@ function FilterButton({ buttonInfo: { categoryName, initialList } }: ButtonProps
 
   const { pathname } = useLocation();
 
-  const searchEndpoint = () => {
-    switch (pathname) {
-      case '/drinks': {
-        return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${categoryName}`;
-      }
-      default: {
-        return `https://www.themealdb.com/api/json/v1/1/filter.php?c=${categoryName}`;
-      }
-    }
-  };
-
   const handleClick = async () => {
+    const apiURL = pathname === '/drinks' ? 'thecocktaildb' : 'themealdb';
     if (!toggle) {
-      const recipesData = await fetchAPI(searchEndpoint());
+      const recipesData = await fetchAPI(`https://www.${apiURL}.com/api/json/v1/1/filter.php?c=${categoryName}`);
       updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
     } else {
       const recipesData = await fetchAPI(initialList);

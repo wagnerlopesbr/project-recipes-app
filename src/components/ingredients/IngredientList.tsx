@@ -1,10 +1,10 @@
 import React from 'react';
-import { IngredientsListType } from '../Type/type';
+import { IngredientsListType } from '../../Type/type';
+import IngredientCard from './IngredientCard';
 
 function IngredientList({ recipesData }: IngredientsListType) {
   /* armazenando as chaves com o Object.keys em um array
-    para as mesmas serem filtradas conforme
-    incluírem o parâmetro */
+    para as mesmas serem filtradas conforme incluírem o parâmetro */
   const ingredients = Object.keys(recipesData).filter(
     (product) => product.includes('strIngredient') && recipesData[product],
   );
@@ -22,12 +22,13 @@ function IngredientList({ recipesData }: IngredientsListType) {
         // incredientKey armazena a info dinâmica do produto/index
         const ingredientKey = recipesData[measurement[index]];
         return (
-          <li
-            data-testid={ `${index}-ingredient-name-and-measure` }
-            key={ product }
-          >
-            { `${ingredientName} - ${ingredientKey}` }
-          </li>
+          <IngredientCard
+            key={ ingredientName }
+            index={ index }
+            product={ product }
+            ingredientName={ ingredientName }
+            ingredientKey={ ingredientKey }
+          />
         );
       })}
     </ul>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import { fetchAPI } from '../../Helpers/FetchAPI';
 import FilterButton from './FilterButton';
 import RecipiesContext from '../../context/RecipiesContext';
+import { DrinkType, MealType } from '../../Type/type';
 
 type CategoryProps = {
   endpoints : {
@@ -19,7 +20,9 @@ function CategoryFilter({ endpoints }: CategoryProps) {
   useEffect(() => {
     const fetchCategories = async () => {
       const data = await fetchAPI(categories);
-      const fiveCategories = Object.values(data)[0].slice(0, 5)
+      const fiveCategories = (
+        Object.values(data)[0] as string[]
+      ).slice(0, 5)
         .map(({ strCategory }) => strCategory);
 
       setCategoriesList(fiveCategories);
@@ -29,7 +32,7 @@ function CategoryFilter({ endpoints }: CategoryProps) {
 
   const handleClick = async () => {
     const recipesData = await fetchAPI(initialList);
-    updateRecipesList(Object.values(recipesData)[0]);
+    updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
   };
 
   return (

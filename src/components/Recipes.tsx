@@ -4,37 +4,38 @@ import { fetchAPI } from '../Helpers/FetchAPI';
 import RecipiesContext from '../context/RecipiesContext';
 import CategoryFilter from './filters/CategoryFilter';
 import RenderRecipes from './RenderRecipes';
+import { DrinkType, MealType } from '../Type/type';
 
 function Recipes() {
-  const { updateRecipesList } = useContext(RecipiesContext);
+  const {
+    updateRecipesList,
+    loading,
+    updateLoading,
+  } = useContext(RecipiesContext);
 
   const { pathname } = useLocation();
 
-  const endpoints = {
-    initialList: '',
-    categories: '',
-  };
+  const apiURL = pathname === '/drinks' ? 'thecocktaildb' : 'themealdb';
 
-  switch (pathname) {
-    case '/drinks': {
-      endpoints.initialList = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-      endpoints.categories = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
-      break;
-    }
-    default: {
-      endpoints.initialList = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-      endpoints.categories = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
-    }
-  }
+  const endpoints = {
+    initialList: `https://www.${apiURL}.com/api/json/v1/1/search.php?s=`,
+    categories: `https://www.${apiURL}.com/api/json/v1/1/list.php?c=list`,
+  };
 
   useEffect(() => {
     const fetchRecipes = async () => {
+      updateLoading(true);
       const recipesData = await fetchAPI(endpoints.initialList);
-      updateRecipesList(Object.values(recipesData)[0]);
+      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
+      updateLoading(false);
     };
 
     fetchRecipes();
-  }, [endpoints.initialList, updateRecipesList]);
+  }, [endpoints.initialList]);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
     <section>

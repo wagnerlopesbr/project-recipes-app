@@ -1,30 +1,45 @@
+import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
-
-import { ApiReturn, DrinkType, MealType } from '../Type/type';
-
+import { fetchAPI } from '../Helpers/FetchAPI';
+import { DrinkType, MealType } from '../Type/type';
+import RecipiesContext from '../context/RecipiesContext';
 import IngredientList from './ingredients/IngredientList';
 import ShareButton from './ShareButton';
-import DetailsCarousel from './DetailsCarousel';
-import StartRecipeButton from './StartRecipeButton';
+import FavoriteButton from './buttons/FavoriteButton';
+import FinishButton from './buttons/FinishButton';
 
-function RecipeDetails() {
+function RecipeInProgress() {
+  const { loading, updateLoading } = useContext(RecipiesContext);
   const { id } = useParams<{ id: string }>();
   const { pathname } = useLocation();
 
-  const key = pathname.includes('drinks') ? 'drinks' : 'meals';
-  const dbUrl = pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
-  const url = `https://www.${dbUrl}.com/api/json/v1/1/lookup.php?i=${id}`;
+  const [recipeData, setRecipeData] = useState<DrinkType | MealType>(
+    {} as DrinkType | MealType,
+  );
 
-  const { data, isLoading } = useFetch<ApiReturn>(url);
-  const recipeData = data ? data[key][0] : {} as DrinkType | MealType;
+  useEffect(() => {
+    const apiUrl = pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
+    const key = pathname.includes('drinks') ? 'drinks' : 'meals';
 
-  if (isLoading) return <div>Loading...</div>;
+    const fetchRecipe = async () => {
+      updateLoading(true);
+      const response = await fetchAPI(`https://www.${apiUrl}.com/api/json/v1/1/lookup.php?i=${id}`);
+      const data = response[key][0];
+      setRecipeData(data);
+      updateLoading(false);
+    };
+
+    fetchRecipe();
+  }, [id, pathname]);
+
+  if (loading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
-    <div>
+    <>
       <h1 data-testid="recipe-title">
-        {recipeData.strMeal || recipeData.strDrink}
+        { recipeData.strMeal || recipeData.strDrink }
       </h1>
       <img
         data-testid="recipe-photo"
@@ -34,19 +49,19 @@ function RecipeDetails() {
       {/* se houver category (meals), renderiza um parágrafo com a info */}
       {recipeData.strCategory && (
         <p data-testid="recipe-category">
-          {recipeData.strCategory}
+          { recipeData.strCategory }
         </p>
       )}
       {/* se for alcólico (drink), renderiza um parágrafo com a info */}
       {recipeData.strAlcoholic && (
         <p data-testid="recipe-category">
-          {recipeData.strAlcoholic}
+          { recipeData.strAlcoholic }
         </p>
       )}
       {/* componente para fazer o .map dos ingredientes do produto */}
       <IngredientList recipesData={ recipeData } />
       <p data-testid="instructions">
-        {recipeData.strInstructions}
+        { recipeData.strInstructions }
       </p>
       {/* se for meals, haverá info de video, que será renderizado */}
       {pathname.includes('meals') && recipeData.strYoutube && (
@@ -59,11 +74,11 @@ function RecipeDetails() {
           allowFullScreen
         />
       )}
-      <DetailsCarousel />
       <ShareButton />
-      <StartRecipeButton />
-    </div>
+      <FavoriteButton />
+      <FinishButton />
+    </>
   );
 }
 
-export default RecipeDetails;
+export default RecipeInProgress;

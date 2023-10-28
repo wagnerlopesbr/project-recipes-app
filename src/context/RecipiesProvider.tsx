@@ -9,14 +9,19 @@ type RecipiesProviderProps = {
 
 function RecipiesProvider({ children }: RecipiesProviderProps) {
   const [renderRecipes, setRenderRecipes] = useState<DrinkType[] | MealType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const updateRecipesList = useCallback((newList: DrinkType[] | MealType[]) => {
     setRenderRecipes(newList);
   }, []);
 
+  const updateLoading = (parameter: boolean) => setLoading(parameter);
+
   const value: RecipiesContextType = {
     updateRecipesList,
     renderRecipes,
+    updateLoading,
+    loading,
   };
 
   return (
