@@ -20,7 +20,6 @@ function Footer() {
             />
           </Link>
         </button>
-
         <button>
           <Link to="/meals">
             <img
