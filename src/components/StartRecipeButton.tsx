@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { s } from 'vitest/dist/types-e3c9754d';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { DoneRecipesLSType, InProgressRecipesType } from '../Type/type';
-import { s } from 'vitest/dist/types-e3c9754d';
 
 function StartRecipeButton() {
   const [doneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
@@ -25,16 +25,22 @@ function StartRecipeButton() {
 
   const handleStartRecipeClick = () => {
     const key = pathname.includes('meals') ? 'meals' : 'drinks';
-      switch (pathname.includes(key)) {
-        case true: // meals
-          navigate(`/meals/${id}/in-progress`);
-          break;
-        case false: // drinks
-          navigate(`/drinks/${id}/in-progress`);
-          break;
-        default:
-          console.log('GABIGOL, VOLTA A JOGAR BEM PF')
-          break;
+    if (key === 'meals') {
+      navigate(`/meals/${id}/in-progress`);
+    } else if (key === 'drinks') {
+      navigate(`/drinks/${id}/in-progress`);
+    }
+    /// //////////////////////////////////////
+    switch (key) {
+      case 'meals': // meals
+        navigate(`/meals/${id}/in-progress`);
+        break;
+      case 'drinks': // drinks
+        navigate(`/drinks/${id}/in-progress`);
+        break;
+      default:
+        console.log('GABIGOL, VOLTA A JOGAR BEM PF');
+        break;
     }
   };
 
