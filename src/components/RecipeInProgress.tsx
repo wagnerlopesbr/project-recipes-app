@@ -1,39 +1,23 @@
-import { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { fetchAPI } from '../Helpers/FetchAPI';
-import { DrinkType, MealType } from '../Type/type';
-import RecipiesContext from '../context/RecipiesContext';
+import { ApiReturn, DrinkType, MealType } from '../Type/type';
 import IngredientList from './ingredients/IngredientList';
 import ShareButton from './ShareButton';
 import FavoriteButton from './buttons/FavoriteButton';
 import FinishButton from './buttons/FinishButton';
+import useFetch from '../hooks/useFetch';
 
 function RecipeInProgress() {
-  const { loading, updateLoading } = useContext(RecipiesContext);
   const { id } = useParams<{ id: string }>();
   const { pathname } = useLocation();
 
-  const [recipeData, setRecipeData] = useState<DrinkType | MealType>(
-    {} as DrinkType | MealType,
-  );
+  const key = pathname.includes('drinks') ? 'drinks' : 'meals';
+  const dbUrl = pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
+  const url = `https://www.${dbUrl}.com/api/json/v1/1/lookup.php?i=${id}`;
 
-  useEffect(() => {
-    const apiUrl = pathname.includes('drinks') ? 'thecocktaildb' : 'themealdb';
-    const key = pathname.includes('drinks') ? 'drinks' : 'meals';
+  const { data, isLoading } = useFetch<ApiReturn>(url);
+  const recipeData = data ? data[key][0] : {} as DrinkType | MealType;
 
-    const fetchRecipe = async () => {
-      updateLoading(true);
-      const response = await fetchAPI(`https://www.${apiUrl}.com/api/json/v1/1/lookup.php?i=${id}`);
-      const data = response[key][0];
-      setRecipeData(data);
-      updateLoading(false);
-    };
-    fetchRecipe();
-  }, [id, pathname]);
-
-  if (loading) {
-    return <h2>Loading...</h2>;
-  }
+  if (isLoading) return <h2>Loading...</h2>;
 
   return (
     <>
