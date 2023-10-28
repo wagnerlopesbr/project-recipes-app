@@ -28,7 +28,6 @@ function RecipeInProgress() {
       setRecipeData(data);
       updateLoading(false);
     };
-
     fetchRecipe();
   }, [id, pathname]);
 
