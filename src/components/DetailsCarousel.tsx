@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import useFetch from '../hooks/useFetch';
 
-import { DRINKS_LINK, MEALS_LINK } from '../Helpers/links';
+import { DRINKS_LINK, MEALS_LINK } from '../Helpers/Links';
 import { ApiReturn } from '../Type/type';
 import styles from '../styles/DetailsCarousel.module.css';
 
