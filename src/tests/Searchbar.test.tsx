@@ -122,7 +122,7 @@ describe('Testes para search bar', () => {
     await user.click(searchBtn);
 
     waitFor(() => {
-      expect(window.location.pathname).toBe('http://localhost:3000/drinks/178319');
+      expect(window.location.pathname).toBe('/drinks/178319');
     });
 
     const title = await screen.findByText('Aquamarine');

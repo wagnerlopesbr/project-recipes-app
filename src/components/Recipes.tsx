@@ -4,6 +4,7 @@ import { fetchAPI } from '../Helpers/FetchAPI';
 import RecipiesContext from '../context/RecipiesContext';
 import CategoryFilter from './filters/CategoryFilter';
 import RenderRecipes from './RenderRecipes';
+import { DrinkType, MealType } from '../Type/type';
 
 function Recipes() {
   const {
@@ -25,12 +26,12 @@ function Recipes() {
     const fetchRecipes = async () => {
       updateLoading(true);
       const recipesData = await fetchAPI(endpoints.initialList);
-      updateRecipesList(Object.values(recipesData)[0]);
+      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
       updateLoading(false);
     };
 
     fetchRecipes();
-  }, [endpoints.initialList, updateRecipesList]);
+  }, [endpoints.initialList]);
 
   if (loading) {
     return <h2>Loading...</h2>;
