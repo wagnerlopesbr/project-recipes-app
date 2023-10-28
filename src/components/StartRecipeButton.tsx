@@ -21,8 +21,10 @@ function StartRecipeButton({ path, recipeId }: PropType) {
 
     const localStorageIngredients = localStorage.getItem('inProgressRecipes');
     if (localStorageIngredients) {
-      useLocalStorage<InProgressRecipesType>('inProgressRecipes');
+      const inProgressRecipes = JSON.parse(localStorageIngredients);
+      return inProgressRecipes.meals?.[recipeId] || inProgressRecipes.drinks?.[recipeId];
     }
+
     return false;
   };
 
