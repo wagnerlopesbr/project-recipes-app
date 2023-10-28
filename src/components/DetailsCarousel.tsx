@@ -1,32 +1,17 @@
 import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import useFetch from '../hooks/useFetch';
+
+import { DRINKS_LINK, MEALS_LINK } from '../Helpers/Links';
+import { ApiReturn } from '../Type/type';
 import styles from '../styles/DetailsCarousel.module.css';
-import { DrinkType, MealType } from '../Type/type';
 
-type DetailsCarouselProps = {
-  meals: {
-    ['meals']: MealType[];
-  }
-  drinks: {
-    ['drinks']: DrinkType[];
-  };
-};
+function DetailsCarousel() {
+  const { pathname } = useLocation();
+  const url = pathname.includes('drinks') ? MEALS_LINK : DRINKS_LINK;
+  const key = pathname.includes('drinks') ? 'meals' : 'drinks';
 
-function DetailsCarousel(
-  { drinks, meals }
-  : DetailsCarouselProps,
-) {
-  const route = useLocation();
-  const [recipes, setRecipes] = useState<MealType[] | DrinkType[]>([]);
-
-  useEffect(() => {
-    if (route.pathname.includes('drinks') && drinks) {
-      setRecipes(meals.meals);
-    }
-    if (route.pathname.includes('meals') && meals) {
-      setRecipes(drinks.drinks);
-    }
-  }, [drinks, meals, route.pathname]);
+  const { data } = useFetch<ApiReturn>(url);
+  const recipes = data ? data[key] : [];
 
   return (
     <section>

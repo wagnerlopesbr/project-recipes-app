@@ -2,7 +2,7 @@ export type CategoryType = {
   strCategory: string;
 };
 
-export type DoneRecipesLocal = {
+export type DoneRecipesLSType = {
 
   id?: string,
   type?: string,
@@ -16,9 +16,9 @@ export type DoneRecipesLocal = {
 
 };
 
-export type MakingRecipes = {
-  meals: { [recipeId: string]: number[] };
-  drinks: { [recipeId: string]: number[] };
+export type InProgressRecipesType = object & {
+  meals: { [recipeId: string]: string[] };
+  drinks: { [recipeId: string]: string[] };
 };
 
 export type DrinkType = {
@@ -117,6 +117,11 @@ export type MealType = {
   strYoutube: string;
   strTags: string;
   [key: string]: string;
+};
+
+export type ApiReturn = {
+  meals: MealType[];
+  drinks: DrinkType[];
 };
 
 export type IngredientsType = {
