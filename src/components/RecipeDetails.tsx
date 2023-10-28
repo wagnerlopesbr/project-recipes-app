@@ -5,8 +5,8 @@ import IngredientList from './IngredientList';
 import ShareButton from './ShareButton';
 import useFetch from '../hooks/useFetch';
 import DetailsCarousel from './DetailsCarousel';
-import BtnBeginRecipe from './BtnBeginRecipe';
 import StartRecipeButton from './StartRecipeButton';
+// import BtnBeginRecipe from './BtnBeginRecipe';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -72,14 +72,7 @@ function RecipeDetails() {
       />
       <ShareButton />
       {/* <BtnBeginRecipe /> */}
-      {
-        recipesData['idMeal' || 'idDrink'] && (
-          <StartRecipeButton
-            path={ route.pathname.includes('/drinks') ? 'drinks' : 'meals' }
-            recipeId={ recipesData['idMeal' || 'idDrink'] }
-          />
-        )
-      }
+      <StartRecipeButton />
     </div>
   );
 }

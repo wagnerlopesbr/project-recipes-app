@@ -1,30 +1,23 @@
+import { useLocation, useParams } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { DoneRecipesLSType, InProgressRecipesType } from '../Type/type';
 
-type PropType = {
-  path: 'drinks' | 'meals';
-  recipeId: string;
-  // recipeType: 'meal' | 'drink';
-};
-
-function StartRecipeButton({ path, recipeId }: PropType) {
+function StartRecipeButton() {
   const [doneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
+  const [inProgressRecipes] = useLocalStorage<InProgressRecipesType>('inProgressRecipes');
 
-  const isDone = doneRecipes.find((recipe: any) => (
-    recipe.id === recipeId
-  ));
+  const { pathname } = useLocation();
+  const { id } = useParams();
+
+  const isDone = doneRecipes.find((recipe: any) => recipe.id === id);
 
   const isRecipeInProgress = () => {
-    if (!recipeId) {
-      return false;
+    const key = pathname.includes('meals') ? 'meals' : 'drinks';
+    const allRecipes = inProgressRecipes[key];
+    if (allRecipes && id) {
+      const recipe = allRecipes[id];
+      if (recipe) return true;
     }
-
-    const localStorageIngredients = localStorage.getItem('inProgressRecipes');
-    if (localStorageIngredients) {
-      const inProgressRecipes = JSON.parse(localStorageIngredients);
-      return inProgressRecipes.meals?.[recipeId] || inProgressRecipes.drinks?.[recipeId];
-    }
-
     return false;
   };
 

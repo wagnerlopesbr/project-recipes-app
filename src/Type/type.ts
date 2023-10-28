@@ -16,7 +16,7 @@ export type DoneRecipesLSType = {
 
 };
 
-export type InProgressRecipesType = {
+export type InProgressRecipesType = object & {
   meals: { [recipeId: string]: string[] };
   drinks: { [recipeId: string]: string[] };
 };
