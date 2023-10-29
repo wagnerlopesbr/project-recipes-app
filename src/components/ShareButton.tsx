@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 
-function ShareButton() {
+type Props = {
+  testid: string;
+};
+
+function ShareButton({ testid }: Props) {
   const [message, setMessage] = useState('');
 
   const recipeLink = window.location.href;
@@ -15,9 +19,8 @@ function ShareButton() {
 
   return (
     <div>
-      <button data-testid="favorite-btn">Favoritar</button>
       <button
-        data-testid="share-btn"
+        data-testid={ testid }
         onClick={ handleShareClick }
       >
         <img
@@ -25,7 +28,7 @@ function ShareButton() {
           alt="share button"
         />
       </button>
-      <p>{ message && <p>{ message }</p> }</p>
+      <p>{message && <p>{message}</p>}</p>
     </div>
   );
 }

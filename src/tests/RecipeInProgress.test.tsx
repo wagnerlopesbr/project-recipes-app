@@ -43,7 +43,7 @@ describe('Recipes in progress page tests', () => {
 
     screen.getByTestId('instructions');
 
-    screen.getByRole('button', { name: /favoritar/i });
+    // screen.getByRole('button', { name: /favoritar/i });
     screen.getByRole('button', { name: /favorite recipe/i });
     screen.getByRole('button', { name: /finish recipe/i });
   });
