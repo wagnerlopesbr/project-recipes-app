@@ -87,7 +87,11 @@ function RecipeInProgress() {
           allowFullScreen
         />
       )}
-      <ShareButton testid="share-btn" />
+      <ShareButton
+        id={ recipeData.idMeal || recipeData.idDrink }
+        keyStr={ key }
+        testid="share-btn"
+      />
       <FavoriteButton />
       <FinishButton
         ingredients={ ingredients }

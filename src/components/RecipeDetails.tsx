@@ -61,7 +61,11 @@ function RecipeDetails() {
         />
       )}
       <DetailsCarousel />
-      <ShareButton testid="share-btn" />
+      <ShareButton
+        id={ recipeData.idMeal || recipeData.idDrink }
+        keyStr={ key }
+        testid="share-btn"
+      />
       <FavoriteButton />
       <StartRecipeButton />
     </div>

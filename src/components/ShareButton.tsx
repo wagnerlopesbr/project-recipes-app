@@ -2,17 +2,17 @@ import { useState } from 'react';
 import shareIcon from '../images/shareIcon.svg';
 
 type Props = {
+  id: string;
+  keyStr: string;
   testid: string;
 };
 
-function ShareButton({ testid }: Props) {
+function ShareButton({ id, keyStr, testid }: Props) {
   const [message, setMessage] = useState('');
 
-  const recipeLink = window.location.href;
-
   const handleShareClick = async () => {
-    const link = recipeLink.replace(/\/in-progress/, '');
-    await navigator.clipboard.writeText(link);
+    const recipeLink = `http://localhost:3000/${keyStr}/${id}`;
+    await navigator.clipboard.writeText(recipeLink);
     setMessage('Link copied!');
     return message;
   };
@@ -20,10 +20,10 @@ function ShareButton({ testid }: Props) {
   return (
     <div>
       <button
-        data-testid={ testid }
         onClick={ handleShareClick }
       >
         <img
+          data-testid={ testid }
           src={ shareIcon }
           alt="share button"
         />
