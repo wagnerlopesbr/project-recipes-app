@@ -1,14 +1,12 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { InProgressRecipesType } from '../../Type/type';
+import RecipiesContext from '../../context/RecipiesContext';
 
 type IngredientProps = {
   index: number;
   product: string;
   ingredientName: string;
   ingredientKey: string;
-  toggleIngredient: (name: string) => void;
-  recipes: InProgressRecipesType;
 };
 
 function IngredientCard({
@@ -16,14 +14,11 @@ function IngredientCard({
   ingredientKey,
   ingredientName,
   product,
-  toggleIngredient,
-  recipes,
 }: IngredientProps) {
+  const { recipes, toggleItem } = useContext(RecipiesContext);
   const { id } = useParams();
   const { pathname } = useLocation();
   const key = pathname.includes('meals') ? 'meals' : 'drinks';
-
-  const [finished, setFinished] = useState<boolean>(false);
 
   const isInProgress = (name: string) => {
     const ingredients = id ? recipes[key][id] : [];
@@ -47,8 +42,7 @@ function IngredientCard({
             id={ ingredientName }
             checked={ isInProgress(ingredientName) }
             onChange={ () => {
-              setFinished(!finished);
-              toggleIngredient(ingredientName);
+              toggleItem(ingredientName, key, id);
             } }
           />
           {`${ingredientName} - ${ingredientKey}`}

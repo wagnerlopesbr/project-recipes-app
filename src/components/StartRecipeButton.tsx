@@ -1,14 +1,15 @@
+import { useContext } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { DoneRecipesLSType, InProgressRecipesType } from '../Type/type';
-import { initInProgress } from '../Helpers/helpers';
+import { DoneRecipesLSType } from '../Type/type';
+import RecipiesContext from '../context/RecipiesContext';
 
 function StartRecipeButton() {
+  const {
+    recipes: inProgressRecipes,
+    initInProgressStorage,
+  } = useContext(RecipiesContext);
   const [doneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
-  const [inProgressRecipes, setRecipes] = useLocalStorage<InProgressRecipesType>(
-    'inProgressRecipes',
-    initInProgress,
-  );
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
@@ -16,13 +17,6 @@ function StartRecipeButton() {
   const key = pathname.includes('meals') ? 'meals' : 'drinks';
 
   const isDone = doneRecipes.find((recipe: any) => recipe.id === id);
-
-  const startStorage = () => {
-    const storageIngredients = id ? inProgressRecipes[key][id] : [];
-    if (!storageIngredients && id) {
-      setRecipes({ ...inProgressRecipes, [key]: { [id]: [] } });
-    }
-  };
 
   const isRecipeInProgress = () => {
     const allRecipes = inProgressRecipes[key];
@@ -36,11 +30,11 @@ function StartRecipeButton() {
   const handleStartRecipeClick = () => {
     switch (key) {
       case 'meals':
-        startStorage();
+        initInProgressStorage(key, id);
         navigate(`/meals/${id}/in-progress`);
         break;
       case 'drinks':
-        startStorage();
+        initInProgressStorage(key, id);
         navigate(`/drinks/${id}/in-progress`);
         break;
       default:

@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { InProgressRecipesType, IngredientsListType } from '../../Type/type';
+import { IngredientsListType } from '../../Type/type';
 import IngredientCard from './IngredientCard';
-import useLocalStorage from '../../hooks/useLocalStorage';
-import { initInProgress } from '../../Helpers/helpers';
+import RecipiesContext from '../../context/RecipiesContext';
 
 function IngredientList({ recipesData }: IngredientsListType) {
+  const { initInProgressStorage } = useContext(RecipiesContext);
   const { id } = useParams();
   const { pathname } = useLocation();
   const key = pathname.includes('meals') ? 'meals' : 'drinks';
@@ -19,29 +19,10 @@ function IngredientList({ recipesData }: IngredientsListType) {
     (measure) => measure.includes('strMeasure') && recipesData[measure],
   );
 
-  const [recipes, setRecipes] = useLocalStorage<InProgressRecipesType>(
-    'inProgressRecipes',
-    initInProgress,
-  );
-
   useEffect(() => {
-    const storageIngredients = id ? recipes[key][id] : [];
-    if (!storageIngredients && id) {
-      setRecipes({ ...recipes, [key]: { [id]: [] } });
-    }
-  }, [id, key, recipes, setRecipes]);
-
-  const toggleItem = (name: string) => {
-    const storageIngredients = id ? recipes[key][id] : [];
     if (!id) return;
-    const ingredient = storageIngredients.find((item) => item === name);
-    if (ingredient) {
-      const newIngredients = storageIngredients.filter((item) => item !== name);
-      setRecipes({ ...recipes, [key]: { [id]: newIngredients } });
-    } else {
-      setRecipes({ ...recipes, [key]: { [id]: [...storageIngredients, name] } });
-    }
-  };
+    initInProgressStorage(key, id);
+  }, [id, initInProgressStorage, key]);
 
   return (
     <ul>
@@ -58,8 +39,6 @@ function IngredientList({ recipesData }: IngredientsListType) {
             product={ product }
             ingredientName={ ingredientName }
             ingredientKey={ ingredientKey }
-            toggleIngredient={ toggleItem }
-            recipes={ recipes }
           />
         );
       })}
