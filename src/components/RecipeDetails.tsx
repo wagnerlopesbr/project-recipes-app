@@ -7,6 +7,7 @@ import IngredientList from './ingredients/IngredientList';
 import ShareButton from './ShareButton';
 import DetailsCarousel from './DetailsCarousel';
 import StartRecipeButton from './StartRecipeButton';
+import FavoriteButton from './buttons/FavoriteButton';
 
 function RecipeDetails() {
   const { id } = useParams<{ id: string }>();
@@ -60,7 +61,8 @@ function RecipeDetails() {
         />
       )}
       <DetailsCarousel />
-      <ShareButton />
+      <ShareButton testid="share-btn" />
+      <FavoriteButton />
       <StartRecipeButton />
     </div>
   );

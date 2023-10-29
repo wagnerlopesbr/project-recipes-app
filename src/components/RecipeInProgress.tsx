@@ -87,7 +87,7 @@ function RecipeInProgress() {
           allowFullScreen
         />
       )}
-      <ShareButton />
+      <ShareButton testid="share-btn" />
       <FavoriteButton />
       <FinishButton
         ingredients={ ingredients }
