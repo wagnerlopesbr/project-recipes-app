@@ -1,20 +1,24 @@
+import { useContext } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { s } from 'vitest/dist/types-e3c9754d';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { DoneRecipesLSType, InProgressRecipesType } from '../Type/type';
+import { DoneRecipesLSType } from '../Type/type';
+import RecipiesContext from '../context/RecipiesContext';
 
 function StartRecipeButton() {
+  const {
+    recipes: inProgressRecipes,
+    initInProgressStorage,
+  } = useContext(RecipiesContext);
   const [doneRecipes] = useLocalStorage<DoneRecipesLSType[]>('doneRecipes', []);
-  const [inProgressRecipes] = useLocalStorage<InProgressRecipesType>('inProgressRecipes');
   const navigate = useNavigate();
 
   const { pathname } = useLocation();
   const { id } = useParams();
+  const key = pathname.includes('meals') ? 'meals' : 'drinks';
 
   const isDone = doneRecipes.find((recipe: any) => recipe.id === id);
 
   const isRecipeInProgress = () => {
-    const key = pathname.includes('meals') ? 'meals' : 'drinks';
     const allRecipes = inProgressRecipes[key];
     if (allRecipes && id) {
       const recipe = allRecipes[id];
@@ -24,22 +28,16 @@ function StartRecipeButton() {
   };
 
   const handleStartRecipeClick = () => {
-    const key = pathname.includes('meals') ? 'meals' : 'drinks';
-    if (key === 'meals') {
-      navigate(`/meals/${id}/in-progress`);
-    } else if (key === 'drinks') {
-      navigate(`/drinks/${id}/in-progress`);
-    }
-    /// //////////////////////////////////////
     switch (key) {
-      case 'meals': // meals
+      case 'meals':
+        initInProgressStorage(key, id);
         navigate(`/meals/${id}/in-progress`);
         break;
-      case 'drinks': // drinks
+      case 'drinks':
+        initInProgressStorage(key, id);
         navigate(`/drinks/${id}/in-progress`);
         break;
       default:
-        console.log('GABIGOL, VOLTA A JOGAR BEM PF');
         break;
     }
   };

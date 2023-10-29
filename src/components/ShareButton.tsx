@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import shareIcon from '../images/shareIcon.svg';
 
 function ShareButton() {
   const [message, setMessage] = useState('');
 
-  const shareIcon = '/src/images/shareIcon.svg';
   const recipeLink = window.location.href;
 
-  const handleShareClick = () => {
-    navigator.clipboard.writeText(recipeLink);
+  const handleShareClick = async () => {
+    const link = recipeLink.replace(/\/in-progress/, '');
+    await navigator.clipboard.writeText(link);
     setMessage('Link copied!');
     return message;
   };

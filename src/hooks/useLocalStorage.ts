@@ -15,19 +15,19 @@ function useLocalStorage<T>(key: string, initialValue: T = {} as T): [T, SetValu
 
   const [item, setItem] = React.useState<T>(readValue);
 
-  React.useEffect(() => {
-    setItem(readValue());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const setValue: SetValue<T> = React.useCallback((value) => {
+  const setValue: SetValue<T> = (value) => {
     try {
       localStorage.setItem(key, JSON.stringify(value));
       setItem(value);
     } catch (e: any) {
       console.error(`Error setting ${key} to local storage => `, e.message);
     }
-  }, [key]);
+  };
+
+  React.useEffect(() => {
+    setItem(readValue());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return [item, setValue];
 }

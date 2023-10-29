@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useContext } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import RecipiesContext from '../../context/RecipiesContext';
 
 type IngredientProps = {
-  index: number,
-  product: string,
-  ingredientName: string,
-  ingredientKey: string,
+  index: number;
+  product: string;
+  ingredientName: string;
+  ingredientKey: string;
 };
 
 function IngredientCard({
@@ -14,9 +15,16 @@ function IngredientCard({
   ingredientName,
   product,
 }: IngredientProps) {
+  const { recipes, toggleItem } = useContext(RecipiesContext);
+  const { id } = useParams();
   const { pathname } = useLocation();
+  const key = pathname.includes('meals') ? 'meals' : 'drinks';
 
-  const [finished, setFinished] = useState<boolean>(false);
+  const isInProgress = (name: string) => {
+    const ingredients = id ? recipes[key][id] : [];
+    const ingredient = ingredients.find((item) => item === name);
+    return !!ingredient;
+  };
 
   if (pathname.includes('in-progress')) {
     return (
@@ -25,14 +33,17 @@ function IngredientCard({
           htmlFor={ ingredientName }
           data-testid={ `${index}-ingredient-step` }
           style={ {
-            textDecoration: finished ? 'line-through solid rgb(0, 0, 0)' : 'none',
+            textDecoration: isInProgress(ingredientName)
+              ? 'line-through solid rgb(0, 0, 0)' : 'none',
           } }
         >
           <input
             type="checkbox"
             id={ ingredientName }
-            checked={ finished }
-            onChange={ () => setFinished(!finished) }
+            checked={ isInProgress(ingredientName) }
+            onChange={ () => {
+              toggleItem(ingredientName, key, id);
+            } }
           />
           {`${ingredientName} - ${ingredientKey}`}
 
@@ -47,7 +58,7 @@ function IngredientCard({
       data-testid={ `${index}-ingredient-name-and-measure` }
       key={ product }
     >
-      { `${ingredientName} - ${ingredientKey}` }
+      {`${ingredientName} - ${ingredientKey}`}
     </li>
   );
 }

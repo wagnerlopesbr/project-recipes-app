@@ -1,8 +1,14 @@
-import React from 'react';
+import { useContext, useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { IngredientsListType } from '../../Type/type';
 import IngredientCard from './IngredientCard';
+import RecipiesContext from '../../context/RecipiesContext';
 
 function IngredientList({ recipesData }: IngredientsListType) {
+  const { initInProgressStorage } = useContext(RecipiesContext);
+  const { id } = useParams();
+  const { pathname } = useLocation();
+  const key = pathname.includes('meals') ? 'meals' : 'drinks';
   /* armazenando as chaves com o Object.keys em um array
     para as mesmas serem filtradas conforme incluírem o parâmetro */
   const ingredients = Object.keys(recipesData).filter(
@@ -12,6 +18,11 @@ function IngredientList({ recipesData }: IngredientsListType) {
   const measurement = Object.keys(recipesData).filter(
     (measure) => measure.includes('strMeasure') && recipesData[measure],
   );
+
+  useEffect(() => {
+    if (!id) return;
+    initInProgressStorage(key, id);
+  }, [id, initInProgressStorage, key]);
 
   return (
     <ul>
