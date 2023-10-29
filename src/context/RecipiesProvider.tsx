@@ -31,6 +31,7 @@ function RecipiesProvider({ children }: RecipiesProviderProps) {
   };
 
   const initInProgressStorage = (key: Key, id: string | undefined) => {
+    if (!recipes[key]) return;
     const storageIngredients = id ? recipes[key][id] : [];
     if (!storageIngredients && id) {
       setRecipes({ ...recipes, [key]: { [id]: [] } });
