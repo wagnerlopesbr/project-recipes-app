@@ -7,9 +7,7 @@ function Profile() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('inProgressRecipes');
-    localStorage.removeItem('doneRecipes');
+    localStorage.clear();
     navigate('/');
   };
 
