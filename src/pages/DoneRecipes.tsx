@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { DoneRecipesLSType } from '../Type/type';
-import ShareButton from '../components/ShareButton';
+import ShareButton from '../components/buttons/ShareButton';
 import Tags from '../components/Tags';
 import TypeFilter from '../components/filters/TypeFilter';
 import useLocalStorage from '../hooks/useLocalStorage';

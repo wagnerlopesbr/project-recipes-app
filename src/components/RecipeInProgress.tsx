@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { ApiReturn, DoneRecipesLSType, DrinkType, MealType } from '../Type/type';
 import IngredientList from './ingredients/IngredientList';
-import ShareButton from './ShareButton';
+import ShareButton from './buttons/ShareButton';
 import FavoriteButton from './buttons/FavoriteButton';
 import FinishButton from './buttons/FinishButton';
 import useFetch from '../hooks/useFetch';
