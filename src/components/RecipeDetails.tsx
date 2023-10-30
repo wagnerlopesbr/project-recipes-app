@@ -4,7 +4,7 @@ import useFetch from '../hooks/useFetch';
 import { ApiReturn, DrinkType, MealType } from '../Type/type';
 
 import IngredientList from './ingredients/IngredientList';
-import ShareButton from './ShareButton';
+import ShareButton from './buttons/ShareButton';
 import DetailsCarousel from './DetailsCarousel';
 import StartRecipeButton from './StartRecipeButton';
 import FavoriteButton from './buttons/FavoriteButton';
