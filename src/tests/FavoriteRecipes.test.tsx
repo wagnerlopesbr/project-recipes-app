@@ -6,6 +6,8 @@ import { renderWithRouter } from './helpers/renderWithRouter';
 import favoriteRecipes from './mocks/favoriteRecipes';
 
 const favoriteRecipesPath = '/favorite-recipes';
+const firstNameId = '0-horizontal-top-text';
+const firstItemString = 'Italian - Vegetarian';
 
 describe('Tests related to favorite recipes page', () => {
   beforeEach(() => {
@@ -22,8 +24,8 @@ describe('Tests related to favorite recipes page', () => {
       renderWithRouter(<App />, { route: favoriteRecipesPath });
     });
 
-    const firstItemName = screen.queryByTestId('0-horizontal-top-text');
-    expect(firstItemName).toHaveTextContent('Italian - Vegetarian');
+    const firstItemName = screen.queryByTestId(firstNameId);
+    expect(firstItemName).toHaveTextContent(firstItemString);
     const secondItemName = screen.queryByTestId('1-horizontal-top-text');
     expect(secondItemName).toHaveTextContent('Alcoholic - Cocktail');
 
@@ -39,8 +41,8 @@ describe('Tests related to favorite recipes page', () => {
       renderWithRouter(<App />, { route: favoriteRecipesPath });
     });
 
-    const firstItemName = screen.queryByTestId('0-horizontal-top-text');
-    expect(firstItemName).toHaveTextContent('Italian - Vegetarian');
+    const firstItemName = screen.queryByTestId(firstNameId);
+    expect(firstItemName).toHaveTextContent(firstItemString);
     const secondItemName = screen.queryByTestId('1-horizontal-top-text');
     expect(secondItemName).toHaveTextContent('Alcoholic - Cocktail');
 
@@ -82,8 +84,8 @@ describe('Tests related to favorite recipes page', () => {
       renderWithRouter(<App />, { route: favoriteRecipesPath });
     });
 
-    const firstItemName = screen.queryByTestId('0-horizontal-top-text');
-    expect(firstItemName).toHaveTextContent('Italian - Vegetarian');
+    const firstItemName = screen.queryByTestId(firstNameId);
+    expect(firstItemName).toHaveTextContent(firstItemString);
 
     const unfavoriteButton = screen.getByTestId('0-horizontal-favorite-btn');
     await userEvent.click(unfavoriteButton);
