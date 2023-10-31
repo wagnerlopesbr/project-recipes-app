@@ -92,7 +92,7 @@ function RecipeInProgress() {
         keyStr={ key }
         testid="share-btn"
       />
-      <FavoriteButton />
+      <FavoriteButton favorites={ recipeData } />
       <FinishButton
         ingredients={ ingredients }
         storedIngredients={ storedIngredients }
