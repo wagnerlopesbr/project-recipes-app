@@ -1,14 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { DoneRecipesLSType } from '../Type/type';
+import { FavoritesType } from '../Type/type';
 import ShareButton from '../components/buttons/ShareButton';
-import Tags from '../components/Tags';
 import TypeFilter from '../components/filters/TypeFilter';
 import useLocalStorage from '../hooks/useLocalStorage';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function FavoriteRecipes() {
   const [filter, setFilter] = useState('all');
-  const [favoriteRecipes] = useLocalStorage<DoneRecipesLSType[]>('favoriteRecipes', []);
+  const [favoriteRecipes, setFavoriteRecipes] = useLocalStorage<FavoritesType[]>(
+    'favoriteRecipes',
+    [],
+  );
   const navigate = useNavigate();
 
   const filteredRecipes = favoriteRecipes.filter((recipe) => {
@@ -21,6 +24,10 @@ function FavoriteRecipes() {
         return true;
     }
   });
+
+  const removeItem = (recipeId: string) => {
+    setFavoriteRecipes(favoriteRecipes.filter((item) => item.id !== recipeId));
+  };
 
   return (
     <div>
@@ -49,17 +56,18 @@ function FavoriteRecipes() {
             >
               {recipe.name}
             </button>
-            <p
-              data-testid={ `${index}-horizontal-done-date` }
-            >
-              {recipe.doneDate.toString()}
-            </p>
+            <button onClick={ () => removeItem(recipe.id) }>
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHeartIcon }
+                alt="InLove"
+              />
+            </button>
             <ShareButton
               id={ recipe.id }
               keyStr={ `${recipe.type}s` }
               testid={ `${index}-horizontal-share-btn` }
             />
-            <Tags index={ index } tagList={ recipe.tags } />
           </div>
         ))
       }
