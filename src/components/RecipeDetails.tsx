@@ -66,7 +66,7 @@ function RecipeDetails() {
         keyStr={ key }
         testid="share-btn"
       />
-      <FavoriteButton />
+      <FavoriteButton favorites={ recipeData } />
       <StartRecipeButton />
     </div>
   );

@@ -4,6 +4,16 @@ export type CategoryType = {
   strCategory: string;
 };
 
+export type FavoritesType = {
+  id: string;
+  type: string;
+  nationality: string;
+  category: string;
+  alcoholicOrNot: string;
+  name:string;
+  image: string;
+};
+
 export type DoneRecipesLSType = {
   id: string,
   type: string,
