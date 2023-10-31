@@ -43,6 +43,8 @@ function FavoriteButton({ favorites }: FavoriteButtonProps) {
 
       toggleFavorited();
       setValue(favorited);
+    } else {
+      setValue(value.filter((item) => item.id !== id));
     }
   };
 
