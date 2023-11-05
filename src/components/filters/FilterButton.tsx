@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { fetchAPI } from '../../Helpers/FetchAPI';
 import RecipiesContext from '../../context/RecipiesContext';
 import { DrinkType, MealType } from '../../Type/type';
+import { addToCache, getFromCache } from '../../hooks/useFetch';
 
 type ButtonProps = {
   buttonInfo: {
@@ -20,12 +21,27 @@ function FilterButton({ buttonInfo: { categoryName, initialList } }: ButtonProps
 
   const handleClick = async () => {
     const apiURL = pathname === '/drinks' ? 'thecocktaildb' : 'themealdb';
+    const url = `https://www.${apiURL}.com/api/json/v1/1/filter.php?c=${categoryName}`;
     if (!toggle) {
-      const recipesData = await fetchAPI(`https://www.${apiURL}.com/api/json/v1/1/filter.php?c=${categoryName}`);
-      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
+      const cachedData = getFromCache<DrinkType[] | MealType[]>(url);
+      if (cachedData) {
+        updateRecipesList(cachedData);
+      } else {
+        const recipesData = await fetchAPI(url);
+        const recipes = Object.values(recipesData)[0] as DrinkType[] | MealType[];
+        updateRecipesList(recipes);
+        addToCache(url, recipes);
+      }
     } else {
-      const recipesData = await fetchAPI(initialList);
-      updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
+      const cachedData = getFromCache<DrinkType[] | MealType[]>(initialList);
+      if (cachedData) {
+        updateRecipesList(cachedData);
+      } else {
+        const recipesData = await fetchAPI(initialList);
+        const recipes = Object.values(recipesData)[0] as DrinkType[] | MealType[];
+        updateRecipesList(recipes);
+        addToCache(initialList, recipes);
+      }
     }
     setToggle(!toggle);
   };

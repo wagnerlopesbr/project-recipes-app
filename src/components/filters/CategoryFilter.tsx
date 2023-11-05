@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from 'react';
 import { fetchAPI } from '../../Helpers/FetchAPI';
 import FilterButton from './FilterButton';
 import RecipiesContext from '../../context/RecipiesContext';
-import { DrinkType, MealType } from '../../Type/type';
+import { CategoryType, DrinkType, MealType } from '../../Type/type';
+import { addToCache, getFromCache } from '../../hooks/useFetch';
 
 type CategoryProps = {
-  endpoints : {
+  endpoints: {
     initialList: string,
     categories: string,
   };
@@ -21,7 +22,7 @@ function CategoryFilter({ endpoints }: CategoryProps) {
     const fetchCategories = async () => {
       const data = await fetchAPI(categories);
       const fiveCategories = (
-        Object.values(data)[0] as string[]
+        Object.values(data)[0] as CategoryType[]
       ).slice(0, 5)
         .map(({ strCategory }) => strCategory);
 
@@ -31,8 +32,16 @@ function CategoryFilter({ endpoints }: CategoryProps) {
   }, []);
 
   const handleClick = async () => {
+    const cachedData = getFromCache<DrinkType[] | MealType[]>(initialList);
+    if (cachedData) {
+      updateRecipesList(cachedData);
+      return;
+    }
+
     const recipesData = await fetchAPI(initialList);
-    updateRecipesList(Object.values(recipesData)[0] as DrinkType[] | MealType[]);
+    const recipes = Object.values(recipesData)[0] as DrinkType[] | MealType[];
+    updateRecipesList(recipes);
+    addToCache(initialList, recipes);
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import RecipiesContext from '../context/RecipiesContext';
 import { DrinkType, MealType } from '../Type/type';
+import { addToCache, getFromCache } from '../hooks/useFetch';
 
 function SearchBar() {
   const { updateRecipesList } = useContext(RecipiesContext);
@@ -44,10 +45,17 @@ function SearchBar() {
     }
 
     try {
+      const cachedData = getFromCache<DrinkType[] | MealType[]>(ENDPOINT);
+      if (cachedData) {
+        updateRecipesList(cachedData);
+        return;
+      }
       const response = await fetch(ENDPOINT);
       const data = await response.json();
       redirectToDetailsPage(data);
-      updateRecipesList(Object.values(data)[0] as DrinkType[] | MealType[]);
+      const recipes = Object.values(data)[0] as DrinkType[] | MealType[];
+      updateRecipesList(recipes);
+      addToCache(ENDPOINT, recipes);
     } catch {
       window.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
