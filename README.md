@@ -1,4 +1,4 @@
-# Recipe App - Project (Group)
+# Recipes App - Project (Group)
 
 #### English:
 ## What have we developed?
